@@ -10,7 +10,6 @@
   overflow: hidden;
   background-color: $color-bg-base;
 
-  // hero.jpg drops in at public/hero.jpg — gradient sits on top for text legibility
   background-image:
     linear-gradient(
       to bottom,
@@ -18,7 +17,7 @@
       rgba(6, 11, 6, 0.55) 55%,
       rgba(6, 11, 6, 1) 100%
     ),
-    url('/hero.jpg');
+    url('../../images/20260423_080650-EDIT.jpg');
   background-size: auto, cover;
   background-position: center, center;
   background-repeat: no-repeat, no-repeat;
