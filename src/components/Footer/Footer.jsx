@@ -8,6 +8,14 @@ export default function Footer({ onLoginClick }) {
   return (
     <footer className={styles.footer}>
       <span className={styles.copy}>&copy; {year} Wrong Folk</span>
+      <a
+        className={styles.credit}
+        href="https://www.corymcdaniel.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        &lt;3 corymcdaniel
+      </a>
       <div className={styles.right}>
         {isAdmin ? (
           <button className={styles.authBtn} onClick={logout}>Log out</button>

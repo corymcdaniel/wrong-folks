@@ -22,6 +22,17 @@
   letter-spacing: 0.06em;
 }
 
+.credit {
+  font-size: 0.75rem;
+  color: $color-text-dim;
+  letter-spacing: 0.04em;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-text-secondary;
+  }
+}
+
 .right {
   display: flex;
   align-items: center;
