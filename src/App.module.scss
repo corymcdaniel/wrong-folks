@@ -1,0 +1,36 @@
+@use './styles/variables' as *;
+
+.app {
+  min-height: 100vh;
+  padding-bottom: 68px; // PlayerBar height
+}
+
+.uploadBtn {
+  position: fixed;
+  bottom: 84px;
+  right: $space-6;
+  z-index: 90;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: $color-bg-elevated;
+  border: 1px solid $color-border-accent;
+  color: $color-accent;
+  font-size: 1.3rem;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background $transition-normal, border-color $transition-normal, transform $transition-fast;
+
+  &:hover {
+    background: $color-accent-dim;
+    border-color: $color-accent;
+    color: $color-text-primary;
+    transform: scale(1.06);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}

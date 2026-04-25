@@ -1,0 +1,54 @@
+@use '../../styles/variables' as *;
+
+.section {
+  padding: $space-4 $space-6 $space-24;
+  background: $color-bg-base;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $space-6;
+}
+
+.heading {
+  font-family: $font-display;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: $color-text-dim;
+}
+
+.addBtn {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $color-accent;
+  border: 1px solid $color-border-accent;
+  border-radius: 3px;
+  padding: $space-1 $space-3;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: $color-accent-dim;
+    color: $color-text-primary;
+  }
+}
+
+.list {
+  border-top: 1px solid $color-border;
+}
+
+.state {
+  padding: $space-10 0;
+  color: $color-text-dim;
+  font-size: 0.875rem;
+  font-style: italic;
+}

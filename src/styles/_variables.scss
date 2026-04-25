@@ -1,0 +1,52 @@
+// --- Colors ---
+$color-bg-base:     #060b06;
+$color-bg-surface:  #0b1209;
+$color-bg-elevated: #101a0d;
+$color-bg-card:     #141f11;
+
+$color-text-primary:   #cdc8b5;
+$color-text-secondary: #7a7a68;
+$color-text-dim:       #464640;
+
+$color-accent:         #5a8847;
+$color-accent-dim:     #3a5829;
+$color-accent-warm:    #a07545;
+$color-accent-warm-dim:#6b4d2c;
+
+$color-playing:     #6a9a50;
+$color-playing-glow: rgba(106, 154, 80, 0.15);
+
+$color-border:        rgba(255, 255, 255, 0.06);
+$color-border-accent: rgba(90, 136, 71, 0.25);
+
+$color-danger: #c05040;
+
+// --- Typography ---
+$font-display: 'IM Fell English', Georgia, serif;
+$font-ui:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono:    'VT323', monospace;
+
+// --- Spacing scale ---
+$space-1:  4px;
+$space-2:  8px;
+$space-3:  12px;
+$space-4:  16px;
+$space-5:  20px;
+$space-6:  24px;
+$space-8:  32px;
+$space-10: 40px;
+$space-12: 48px;
+$space-16: 64px;
+$space-20: 80px;
+$space-24: 96px;
+$space-32: 128px;
+
+// --- Transitions ---
+$transition-fast:   0.12s ease;
+$transition-normal: 0.22s ease;
+$transition-slow:   0.4s ease;
+
+// --- Breakpoints ---
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;

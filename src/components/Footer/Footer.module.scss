@@ -1,0 +1,42 @@
+@use '../../styles/variables' as *;
+
+.footer {
+  padding: $space-6;
+  border-top: 1px solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 720px;
+  margin: 0 auto $space-20;
+
+  @media (max-width: $bp-sm) {
+    flex-direction: column;
+    gap: $space-3;
+    text-align: center;
+  }
+}
+
+.copy {
+  font-size: 0.75rem;
+  color: $color-text-dim;
+  letter-spacing: 0.06em;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.authBtn {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-dim;
+  padding: $space-1 $space-2;
+  border-radius: 2px;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-text-secondary;
+  }
+}

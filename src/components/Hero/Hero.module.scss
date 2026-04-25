@@ -1,0 +1,92 @@
+@use '../../styles/variables' as *;
+
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: $color-bg-base;
+
+  // hero.jpg drops in at public/hero.jpg — gradient sits on top for text legibility
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(6, 11, 6, 0.15) 0%,
+      rgba(6, 11, 6, 0.55) 55%,
+      rgba(6, 11, 6, 1) 100%
+    ),
+    url('/hero.jpg');
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 65%, rgba(15, 35, 8, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(4, 18, 14, 0.3) 0%, transparent 50%);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.title {
+  font-family: $font-display;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 400;
+  color: $color-text-primary;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: $space-4;
+
+  // Chromatic aberration — VHS light touch
+  text-shadow:
+    -1px 0 rgba(200, 55, 55, 0.12),
+    1px 0 rgba(55, 200, 145, 0.12);
+  transition: text-shadow $transition-slow;
+
+  &:hover {
+    text-shadow:
+      -2px 0 rgba(200, 55, 55, 0.22),
+      2px 0 rgba(55, 200, 145, 0.22);
+  }
+}
+
+.tagline {
+  font-family: $font-display;
+  font-style: italic;
+  font-size: clamp(0.85rem, 2vw, 1.15rem);
+  color: $color-text-secondary;
+  letter-spacing: 0.22em;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: $space-8;
+  left: 50%;
+  transform: translateX(-50%);
+
+  span {
+    display: block;
+    width: 1px;
+    height: 52px;
+    background: linear-gradient(to bottom, transparent, rgba(122, 122, 104, 0.5));
+    animation: scrollDrop 2.2s ease infinite;
+  }
+}
+
+@keyframes scrollDrop {
+  0%   { opacity: 0; transform: scaleY(0.2); transform-origin: top; }
+  40%  { opacity: 1; transform: scaleY(1);   transform-origin: top; }
+  100% { opacity: 0; transform: scaleY(1);   transform-origin: top; }
+}
