@@ -34,11 +34,15 @@ function Site() {
     setSongs((prev) => prev.filter((s) => s.id !== id));
   };
 
+  const handleReorder = (reordered) => {
+    setSongs(reordered);
+  };
+
   return (
     <div className={styles.app}>
       <Hero />
       <Intro />
-      <MusicSection songs={songs} isLoading={isLoadingSongs} onDelete={handleDelete} onUpload={() => setShowUpload(true)} />
+      <MusicSection songs={songs} isLoading={isLoadingSongs} onDelete={handleDelete} onReorder={handleReorder} onUpload={() => setShowUpload(true)} />
       <Footer onLoginClick={() => setShowLogin(true)} />
       <PlayerBar />
 

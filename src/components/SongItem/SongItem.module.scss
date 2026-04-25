@@ -7,9 +7,10 @@
   gap: $space-3;
   padding: $space-3 $space-2;
   border-bottom: 1px solid $color-border;
+  border-top: 2px solid transparent; // reserve space for drop indicator
   cursor: pointer;
   user-select: none;
-  transition: background $transition-fast;
+  transition: background $transition-fast, border-top-color $transition-fast, opacity $transition-fast;
 
   &:hover {
     background: rgba(255, 255, 255, 0.022);
@@ -20,6 +21,46 @@
 
   &.active .title {
     color: $color-playing;
+  }
+
+  &.adminMode {
+    grid-template-columns: 20px 44px 1fr auto;
+    cursor: grab;
+
+    &:active { cursor: grabbing; }
+  }
+
+  &.dragging {
+    opacity: 0.35;
+  }
+
+  &.dropTarget {
+    border-top-color: $color-accent;
+  }
+}
+
+// --- Drag handle ---
+.dragHandle {
+  display: grid;
+  grid-template-columns: repeat(2, 3px);
+  grid-template-rows: repeat(3, 3px);
+  gap: 3px;
+  justify-content: center;
+  align-content: center;
+  opacity: 0;
+  transition: opacity $transition-fast;
+  cursor: grab;
+
+  .item:hover & {
+    opacity: 1;
+  }
+
+  span {
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: $color-text-dim;
   }
 }
 

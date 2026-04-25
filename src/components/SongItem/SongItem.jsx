@@ -13,11 +13,15 @@ function fmt(sec) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-export default function SongItem({ song, index, onDelete }) {
+export default function SongItem({
+  song, index, onDelete,
+  isDragging, isDropTarget,
+  onDragStart, onDragOver, onDrop, onDragEnd,
+}) {
   const { currentSong, isPlaying, playSong } = usePlayer();
   const { isAdmin, token } = useAuth();
-  const isActive   = currentSong?.id === song.id;
-  const isRunning  = isActive && isPlaying;
+  const isActive  = currentSong?.id === song.id;
+  const isRunning = isActive && isPlaying;
 
   const handleDelete = async (e) => {
     e.stopPropagation();
@@ -33,14 +37,33 @@ export default function SongItem({ song, index, onDelete }) {
     }
   };
 
+  const className = [
+    styles.item,
+    isActive      ? styles.active      : '',
+    isDragging    ? styles.dragging    : '',
+    isDropTarget  ? styles.dropTarget  : '',
+    isAdmin       ? styles.adminMode   : '',
+  ].filter(Boolean).join(' ');
+
   return (
     <div
-      className={`${styles.item} ${isActive ? styles.active : ''}`}
+      className={className}
+      draggable={isAdmin}
+      onDragStart={onDragStart}
+      onDragOver={(e) => { e.preventDefault(); onDragOver?.(); }}
+      onDrop={(e) => { e.preventDefault(); onDrop?.(); }}
+      onDragEnd={onDragEnd}
       onClick={() => playSong(song)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && playSong(song)}
     >
+      {isAdmin && (
+        <div className={styles.dragHandle} title="Drag to reorder">
+          <span /><span /><span /><span /><span /><span />
+        </div>
+      )}
+
       <div className={styles.indicator}>
         {isRunning ? (
           <div className={styles.bars} aria-label="Playing">

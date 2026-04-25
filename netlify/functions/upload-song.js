@@ -38,8 +38,8 @@ export default async (req) => {
         title:      title.trim(),
         uploadedAt,
         mimeType:   file.type || 'audio/mpeg',
-        size:       file.size,
-        duration,
+        size:       String(file.size),
+        duration:   duration != null ? String(duration) : '',
       },
     });
 
