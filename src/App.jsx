@@ -7,6 +7,7 @@ import MusicSection from './components/MusicSection/MusicSection';
 import PlayerBar from './components/PlayerBar/PlayerBar';
 import UploadModal from './components/UploadModal/UploadModal';
 import Footer from './components/Footer/Footer';
+import BandPhoto from './components/BandPhoto/BandPhoto';
 import LoginModal from './components/LoginModal/LoginModal';
 import styles from './App.module.scss';
 
@@ -44,6 +45,7 @@ function Site() {
       <Intro />
       <MusicSection songs={songs} isLoading={isLoadingSongs} onDelete={handleDelete} onReorder={handleReorder} onUpload={() => setShowUpload(true)} />
       <Footer onLoginClick={() => setShowLogin(true)} />
+      <BandPhoto />
       <PlayerBar />
 
       {showUpload && (

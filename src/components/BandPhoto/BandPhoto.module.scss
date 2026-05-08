@@ -1,0 +1,26 @@
+@use '../../styles/variables' as *;
+
+.wrap {
+  width: 100%;
+  background: $color-bg-base;
+  // Enough clearance for the fixed 68px PlayerBar + breathing room
+  padding-bottom: calc(68px + #{$space-8});
+  overflow: hidden;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  max-height: 55vh;
+  object-fit: cover;
+  object-position: center 40%;
+
+  mask-image:
+    linear-gradient(to right,  transparent 0%, black 10%, black 90%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 12%, black 80%, transparent 100%);
+  -webkit-mask-image:
+    linear-gradient(to right,  transparent 0%, black 10%, black 90%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, black 12%, black 80%, transparent 100%);
+  mask-composite: intersect;
+  -webkit-mask-composite: destination-in;
+}

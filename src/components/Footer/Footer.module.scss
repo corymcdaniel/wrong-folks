@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between;
   max-width: 720px;
-  margin: 0 auto $space-20;
+  margin: 0 auto;
 
   @media (max-width: $bp-sm) {
     flex-direction: column;
