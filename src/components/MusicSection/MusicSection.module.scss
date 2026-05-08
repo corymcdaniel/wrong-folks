@@ -26,6 +26,44 @@
   color: $color-text-dim;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+}
+
+.playAllBtn {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $color-text-secondary;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  padding: $space-1 $space-3;
+  transition: background $transition-fast, color $transition-fast, border-color $transition-fast;
+
+  &:hover {
+    border-color: $color-border-accent;
+    color: $color-accent;
+    background: rgba(90, 136, 71, 0.06);
+  }
+}
+
+.playAllActive {
+  color: $color-playing;
+  border-color: $color-border-accent;
+  background: rgba(90, 136, 71, 0.08);
+}
+
+.playAllIcon {
+  font-size: 0.55rem;
+  line-height: 1;
+  letter-spacing: -0.1em;
+}
+
 .addBtn {
   font-size: 0.72rem;
   letter-spacing: 0.1em;

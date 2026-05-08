@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { usePlayer } from '../../contexts/PlayerContext';
 import SongItem from '../SongItem/SongItem';
 import styles from './MusicSection.module.scss';
 
 export default function MusicSection({ songs, isLoading, onDelete, onUpload, onReorder }) {
   const { isAdmin, token } = useAuth();
+  const { playAll, playlist } = usePlayer();
   const [dragIndex, setDragIndex] = useState(null);
   const [overIndex, setOverIndex] = useState(null);
 
@@ -37,9 +39,21 @@ export default function MusicSection({ songs, isLoading, onDelete, onUpload, onR
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.heading}>Songs</h2>
-          {isAdmin && (
-            <button className={styles.addBtn} onClick={onUpload}>+ Add Song</button>
-          )}
+          <div className={styles.headerActions}>
+            {songs.length > 0 && (
+              <button
+                className={`${styles.playAllBtn}${playlist ? ` ${styles.playAllActive}` : ''}`}
+                onClick={() => playAll(songs)}
+                aria-label="Play all songs"
+              >
+                <span className={styles.playAllIcon}>&#9654;&#9654;</span>
+                Play All
+              </button>
+            )}
+            {isAdmin && (
+              <button className={styles.addBtn} onClick={onUpload}>+ Add Song</button>
+            )}
+          </div>
         </div>
         <div className={styles.list}>
           {isLoading && <p className={styles.state}>Loading&hellip;</p>}

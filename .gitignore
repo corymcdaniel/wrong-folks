@@ -3,3 +3,4 @@ build
 .netlify
 .env
 deno.lock
+.idea

@@ -13,7 +13,7 @@ function fmt(sec) {
 }
 
 export default function PlayerBar() {
-  const { currentSong, isPlaying, currentTime, duration, togglePlay, seek } = usePlayer();
+  const { currentSong, isPlaying, currentTime, duration, playlist, togglePlay, seek, playPrev, playNext } = usePlayer();
   if (!currentSong) return null;
 
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -24,6 +24,10 @@ export default function PlayerBar() {
         <span className={styles.songTitle}>{stripBand(currentSong.title)}</span>
 
         <div className={styles.controls}>
+          {playlist && (
+            <button className={styles.navBtn} onClick={playPrev} aria-label="Previous song">&#9664;</button>
+          )}
+
           <button
             className={styles.playBtn}
             onClick={togglePlay}
@@ -31,6 +35,10 @@ export default function PlayerBar() {
           >
             {isPlaying ? '▐▐' : '▶'}
           </button>
+
+          {playlist && (
+            <button className={styles.navBtn} onClick={playNext} aria-label="Next song">&#9654;</button>
+          )}
 
           <div className={styles.seek}>
             <span className={styles.time}>{fmt(currentTime)}</span>
