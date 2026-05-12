@@ -11,8 +11,8 @@ export default function MusicSection({ songs, isLoading, onDelete, onUpload, onR
   const [overIndex, setOverIndex] = useState(null);
 
   const handleDragStart = (i) => setDragIndex(i);
-  const handleDragOver  = (i) => setOverIndex(i);
-  const handleDragEnd   = () => { setDragIndex(null); setOverIndex(null); };
+  const handleDragOver = (i) => setOverIndex(i);
+  const handleDragEnd = () => { setDragIndex(null); setOverIndex(null); };
 
   const handleDrop = async (dropI) => {
     if (dragIndex === null || dragIndex === dropI) { handleDragEnd(); return; }
@@ -38,7 +38,7 @@ export default function MusicSection({ songs, isLoading, onDelete, onUpload, onR
     <section className={styles.section} id="music">
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.heading}>Songs</h2>
+          <h2 className={styles.heading}>Songs (Currently samples and clips between actual songs</h2>
           <div className={styles.headerActions}>
             {songs.length > 0 && (
               <button
