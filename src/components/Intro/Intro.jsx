@@ -6,7 +6,11 @@ export default function Intro() {
       <div className={styles.divider} />
       <div className={styles.container}>
         <p className={styles.lead}>
-          Fluid like the sap of a palo verde.
+          There was a dream here.
+          <br />
+          Strong but doubtful at the end.
+          <br />
+          Drips like palo verde sap.
         </p>
       </div>
     </section>
