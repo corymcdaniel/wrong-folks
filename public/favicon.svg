@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="3" fill="#060b06"/>
+  <rect width="32" height="32" rx="3" fill="none" stroke="#5a8847" stroke-width="1.5" stroke-opacity="0.45"/>
+  <text
+    x="16" y="21"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="13"
+    fill="#cdc8b5"
+    text-anchor="middle"
+    letter-spacing="0.5"
+  >WF</text>
+</svg>
