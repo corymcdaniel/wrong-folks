@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import styles from './SongItem.module.scss';
 
 function stripBand(title) {
-  return title.replace(/^wrong folk[\s\-–—:,]+/i, '').trim() || title;
+  return title.replace(/^wrong folks[\s\-–—:,]+/i, '').trim() || title;
 }
 
 function fmt(sec) {

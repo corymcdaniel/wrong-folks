@@ -1,6 +1,6 @@
-# Wrong Folk
+# Wrong Folks
 
-Band website for Wrong Folk. One-page site with song list and audio playback. Songs are stored in Netlify Blobs and streamed through Netlify Functions.
+Band website for Wrong Folks. One-page site with song list and audio playback. Songs are stored in Netlify Blobs and streamed through Netlify Functions.
 
 ## Running locally
 
@@ -13,7 +13,7 @@ npm install -g netlify-cli
 Install dependencies and run the dev server:
 
 ```bash
-cd sites/wrong-folk
+cd sites/wrongfolks
 npm install
 netlify dev
 ```
@@ -28,7 +28,7 @@ Set these in a `.env` file (or in the Netlify dashboard under Site settings → 
 |------------------|-----------------------------------------------|
 | `ADMIN_PASSWORD` | Password for the admin login in the footer    |
 
-For local dev, create `sites/wrong-folk/.env`:
+For local dev, create `sites/wrongfolks/.env`:
 
 ```
 ADMIN_PASSWORD=your-password-here

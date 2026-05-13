@@ -33,7 +33,7 @@ export default function UploadModal({ onClose, onSuccess }) {
     setFile(f);
     if (!title) {
       const raw = f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-      setTitle(raw.replace(/^wrong folk[\s\-–—:,]+/i, '').trim() || raw);
+      setTitle(raw.replace(/^wrong folks[\s\-–—:,]+/i, '').trim() || raw);
     }
   };
 

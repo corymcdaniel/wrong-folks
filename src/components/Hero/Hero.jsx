@@ -5,7 +5,7 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.overlay} />
       <div className={styles.content}>
-        <h1 className={styles.title}>Wrong Folk</h1>
+        <h1 className={styles.title}>Wrong Folks</h1>
         <p className={styles.tagline}>distance is futile</p>
       </div>
       <div className={styles.scrollHint}>

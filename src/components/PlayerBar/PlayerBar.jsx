@@ -2,7 +2,7 @@ import { usePlayer } from '../../contexts/PlayerContext';
 import styles from './PlayerBar.module.scss';
 
 function stripBand(title) {
-  return title?.replace(/^wrong folk[\s\-–—:,]+/i, '').trim() || title;
+  return title?.replace(/^wrong folks[\s\-–—:,]+/i, '').trim() || title;
 }
 
 function fmt(sec) {

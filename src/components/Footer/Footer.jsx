@@ -7,7 +7,7 @@ export default function Footer({ onLoginClick }) {
 
   return (
     <footer className={styles.footer}>
-      <span className={styles.copy}>&copy; {year} Wrong Folk</span>
+      <span className={styles.copy}>&copy; {year} Wrong Folks</span>
       <a
         className={styles.credit}
         href="https://www.corymcdaniel.com"
