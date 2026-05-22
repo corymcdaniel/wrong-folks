@@ -38,7 +38,7 @@ export default function MusicSection({ songs, isLoading, onDelete, onUpload, onR
     <section className={styles.section} id="music">
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.heading}>Songs (Currently samples and clips between actual songs</h2>
+          <h2 className={styles.heading}>Pieces</h2>
           <div className={styles.headerActions}>
             {songs.length > 0 && (
               <button

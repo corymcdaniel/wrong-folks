@@ -14,7 +14,7 @@ export default function Footer({ onLoginClick }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        &lt;3 corymcdaniel
+        ♡corymcdaniel
       </a>
       <div className={styles.right}>
         {isAdmin ? (
