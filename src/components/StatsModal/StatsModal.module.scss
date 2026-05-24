@@ -1,0 +1,154 @@
+@use '../../styles/variables' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-4;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: $color-bg-elevated;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.18s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(10px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-6;
+  border-bottom: 1px solid $color-border;
+}
+
+.heading {
+  font-family: $font-display;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-secondary;
+}
+
+.closeBtn {
+  font-size: 1.3rem;
+  color: $color-text-dim;
+  line-height: 1;
+  padding: 0 $space-1;
+  transition: color $transition-fast;
+
+  &:hover { color: $color-text-primary; }
+}
+
+.body {
+  padding: $space-6;
+  overflow-y: auto;
+}
+
+.muted {
+  font-size: 0.85rem;
+  color: $color-text-dim;
+}
+
+.error {
+  font-size: 0.85rem;
+  color: $color-danger;
+}
+
+.totals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-3;
+  margin-bottom: $space-6;
+}
+
+.totalCell {
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  padding: $space-3 $space-4;
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.totalLabel {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $color-text-dim;
+}
+
+.totalValue {
+  font-family: $font-mono;
+  font-size: 1.4rem;
+  color: $color-accent;
+  letter-spacing: 0.04em;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+
+  th, td {
+    padding: $space-2 $space-3;
+    border-bottom: 1px solid $color-border;
+    text-align: left;
+  }
+
+  th {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $color-text-dim;
+    font-weight: 400;
+  }
+
+  tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+}
+
+.title {
+  color: $color-text-primary;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.num {
+  text-align: right;
+  font-family: $font-mono;
+  color: $color-text-secondary;
+  white-space: nowrap;
+}
+
+.dim {
+  color: $color-text-dim;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}

@@ -9,6 +9,7 @@ import UploadModal from './components/UploadModal/UploadModal';
 import Footer from './components/Footer/Footer';
 import BandPhoto from './components/BandPhoto/BandPhoto';
 import LoginModal from './components/LoginModal/LoginModal';
+import StatsModal from './components/StatsModal/StatsModal';
 import styles from './App.module.scss';
 
 function Site() {
@@ -17,6 +18,7 @@ function Site() {
   const [isLoadingSongs, setLoading] = useState(true);
   const [showUpload, setShowUpload] = useState(false);
   const [showLogin, setShowLogin]   = useState(false);
+  const [showStats, setShowStats]   = useState(false);
 
   useEffect(() => {
     fetch('/api/songs')
@@ -44,7 +46,7 @@ function Site() {
       <Hero />
       <Intro />
       <MusicSection songs={songs} isLoading={isLoadingSongs} onDelete={handleDelete} onReorder={handleReorder} onUpload={() => setShowUpload(true)} />
-      <Footer onLoginClick={() => setShowLogin(true)} />
+      <Footer onLoginClick={() => setShowLogin(true)} onStatsClick={() => setShowStats(true)} />
       <BandPhoto />
       <PlayerBar />
 
@@ -53,6 +55,9 @@ function Site() {
       )}
       {showLogin && (
         <LoginModal onClose={() => setShowLogin(false)} />
+      )}
+      {showStats && isAdmin && (
+        <StatsModal onClose={() => setShowStats(false)} />
       )}
     </div>
   );

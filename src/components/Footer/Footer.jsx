@@ -1,7 +1,7 @@
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './Footer.module.scss';
 
-export default function Footer({ onLoginClick }) {
+export default function Footer({ onLoginClick, onStatsClick }) {
   const { isAdmin, logout } = useAuth();
   const year = new Date().getFullYear();
 
@@ -17,6 +17,9 @@ export default function Footer({ onLoginClick }) {
         ♡corymcdaniel
       </a>
       <div className={styles.right}>
+        {isAdmin && (
+          <button className={styles.authBtn} onClick={onStatsClick}>Stats</button>
+        )}
         {isAdmin ? (
           <button className={styles.authBtn} onClick={logout}>Log out</button>
         ) : (

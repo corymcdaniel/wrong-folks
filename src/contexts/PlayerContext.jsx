@@ -1,4 +1,5 @@
 import { createContext, useContext, useRef, useState, useEffect, useCallback } from 'react';
+import { createPlayTracker } from '../utils/playTracker';
 
 const PlayerContext = createContext(null);
 
@@ -6,6 +7,7 @@ export function PlayerProvider({ children }) {
   const audioRef        = useRef(null);
   const playlistRef     = useRef(null);
   const playlistIdxRef  = useRef(0);
+  const trackerRef      = useRef(null);
 
   const [currentSong, setCurrentSong]     = useState(null);
   const [isPlaying, setIsPlaying]         = useState(false);
@@ -18,6 +20,7 @@ export function PlayerProvider({ children }) {
   const loadSong = useRef(null);
   loadSong.current = (song) => {
     const audio = audioRef.current;
+    trackerRef.current?.begin(song.id);
     setCurrentSong(song);
     setCurrentTime(0);
     setDuration(0);
@@ -28,11 +31,20 @@ export function PlayerProvider({ children }) {
   useEffect(() => {
     const audio = new Audio();
     audioRef.current = audio;
+    const tracker = createPlayTracker();
+    trackerRef.current = tracker;
 
     const onTimeUpdate = () => setCurrentTime(audio.currentTime);
-    const onDuration   = () => setDuration(isNaN(audio.duration) ? 0 : audio.duration);
-    const onError      = () => setIsPlaying(false);
-    const onEnded      = () => {
+    const onDuration   = () => {
+      const d = isNaN(audio.duration) ? 0 : audio.duration;
+      setDuration(d);
+      tracker.setDuration(d);
+    };
+    const onPlay  = () => tracker.play();
+    const onPause = () => tracker.pause();
+    const onError = () => { tracker.pause(); setIsPlaying(false); };
+    const onEnded = () => {
+      tracker.end();
       const pl = playlistRef.current;
       if (pl?.length > 0) {
         const nextIdx = (playlistIdxRef.current + 1) % pl.length;
@@ -43,17 +55,30 @@ export function PlayerProvider({ children }) {
         setIsPlaying(false);
       }
     };
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') tracker.flush(true);
+    };
+    const onPageHide = () => tracker.flush(true);
 
     audio.addEventListener('timeupdate',     onTimeUpdate);
     audio.addEventListener('durationchange', onDuration);
+    audio.addEventListener('play',           onPlay);
+    audio.addEventListener('pause',          onPause);
     audio.addEventListener('ended',          onEnded);
     audio.addEventListener('error',          onError);
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('pagehide', onPageHide);
 
     return () => {
       audio.removeEventListener('timeupdate',     onTimeUpdate);
       audio.removeEventListener('durationchange', onDuration);
+      audio.removeEventListener('play',           onPlay);
+      audio.removeEventListener('pause',          onPause);
       audio.removeEventListener('ended',          onEnded);
       audio.removeEventListener('error',          onError);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pagehide', onPageHide);
+      tracker.finalize();
       audio.pause();
     };
   }, []);
