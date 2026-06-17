@@ -1,4 +1,4 @@
-import bandPhoto from '../../images/20251129_153346.jpg';
+import bandPhoto from '../../images/20231224_132745.jpg';
 import styles from './BandPhoto.module.scss';
 
 export default function BandPhoto() {
