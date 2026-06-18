@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import PolaroidCard from './PolaroidCard';
 import styles from './PolaroidStack.module.scss';
 
 // Pull every polaroid in at build time, sorted by filename for stable order.
@@ -11,12 +12,29 @@ const VISIBLE = 4;           // how many cards are rendered in the pile at once
 const AUTO_MS = 3600;        // auto-advance cadence
 const DRAG_THRESHOLD = 90;   // px of drag needed to flick the top card away
 
-function cx(...classes) {
-  return classes.filter(Boolean).join(' ');
+// Fisher–Yates: deal the polaroids in a fresh random order on each load.
+function shuffledIndices() {
+  const order = photos.map((_, i) => i);
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+
+// A small, persistent position/tilt offset per photo so no two cards sit
+// exactly on their slot's base transform — keeps the pile looking hand-stacked.
+function makeJitter() {
+  return photos.map(() => ({
+    x: Math.round((Math.random() - 0.5) * 12), // ±6px
+    y: Math.round((Math.random() - 0.5) * 12), // ±6px
+    r: Number(((Math.random() - 0.5) * 6).toFixed(2)), // ±3deg
+  }));
 }
 
 export default function PolaroidStack() {
-  const [stack, setStack] = useState(() => photos.map((_, i) => i));
+  const [stack, setStack] = useState(shuffledIndices);
+  const [jitter] = useState(makeJitter);
   const [leaving, setLeaving] = useState(null); // null | 'left' | 'right'
   const [hovering, setHovering] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -90,18 +108,10 @@ export default function PolaroidStack() {
     }
   };
 
-  const cardClass = (pos) => {
-    const classes = [styles.card, styles[`pos${pos}`]];
-    if (pos === 0 && dragging) classes.push(styles.dragging);
-    if (pos === 0 && leaving === 'left') classes.push(styles.leavingLeft);
-    if (pos === 0 && leaving === 'right') classes.push(styles.leavingRight);
-    return cx(...classes);
-  };
-
   if (photos.length === 0) return null;
 
   return (
-    <section className={cx(styles.section, (hovering || dragging) && styles.paused)}>
+    <section className={styles.section}>
       <p className={styles.kicker}>dreaming?</p>
 
       <div
@@ -114,25 +124,17 @@ export default function PolaroidStack() {
         onPointerCancel={onPointerUp}
       >
         {stack.slice(0, VISIBLE).map((photoIdx, pos) => (
-          <div
+          <PolaroidCard
             key={photoIdx}
             ref={pos === 0 ? topRef : null}
-            className={cardClass(pos)}
-            onAnimationEnd={pos === 0 ? handleAnimationEnd : undefined}
-          >
-            <div className={styles.inner}>
-              <div className={styles.frame}>
-                <div className={styles.imgWrap}>
-                  <img
-                    src={photos[photoIdx]}
-                    alt=""
-                    className={styles.img}
-                    draggable={false}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+            src={photos[photoIdx]}
+            pos={pos}
+            jitter={jitter[photoIdx]}
+            dragging={dragging}
+            leaving={leaving}
+            paused={hovering || dragging}
+            onAnimationEnd={handleAnimationEnd}
+          />
         ))}
       </div>
 
