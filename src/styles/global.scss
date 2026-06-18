@@ -13,7 +13,12 @@ html {
 
 body {
   font-family: $font-ui;
-  background-color: $color-bg-base;
+  // glass.gif as the fixed, full-viewport background. The dark gradient on top
+  // is a scrim for text legibility — raise/lower its alpha to taste.
+  background:
+    linear-gradient(rgba(6, 11, 6, 0.82), rgba(6, 11, 6, 0.82)),
+    url('../images/glass.gif') center center / cover no-repeat fixed,
+    $color-bg-base;
   color: $color-text-primary;
   line-height: 1.6;
   min-height: 100vh;

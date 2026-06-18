@@ -2,7 +2,7 @@
 
 .wrap {
   width: 100%;
-  background: $color-bg-base;
+  background: transparent;
   // Enough clearance for the fixed 68px PlayerBar + breathing room
   padding-bottom: calc(68px + #{$space-8});
   overflow: hidden;
