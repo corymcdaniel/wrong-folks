@@ -104,9 +104,15 @@
   animation: flickRight 0.5s ease forwards;
 }
 
+// `from` includes the live drag offset so a drag-released card flicks off
+// continuously from where the pointer left it, instead of snapping to center.
 @keyframes flickLeft {
   from {
-    transform: translate(-50%, -50%) rotate(-4deg);
+    transform:
+      translate(-50%, -50%)
+      rotate(-4deg)
+      translateX(var(--drag-x, 0px))
+      rotate(var(--drag-rot, 0deg));
     opacity: 1;
   }
   to {
@@ -117,7 +123,11 @@
 
 @keyframes flickRight {
   from {
-    transform: translate(-50%, -50%) rotate(-4deg);
+    transform:
+      translate(-50%, -50%)
+      rotate(-4deg)
+      translateX(var(--drag-x, 0px))
+      rotate(var(--drag-rot, 0deg));
     opacity: 1;
   }
   to {
