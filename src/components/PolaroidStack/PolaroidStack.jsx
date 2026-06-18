@@ -136,7 +136,7 @@ export default function PolaroidStack() {
         ))}
       </div>
 
-      <p className={styles.hint}>drag to shuffle</p>
+      <p className={styles.hint}>does it matter?</p>
     </section>
   );
 }
