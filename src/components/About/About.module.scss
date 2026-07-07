@@ -1,0 +1,60 @@
+@use '../../styles/variables' as *;
+
+.about {
+  padding: $space-8 0;
+}
+
+.container {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-family: $font-display;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: $color-text-dim;
+  margin-bottom: $space-6;
+}
+
+.lead {
+  font-family: $font-display;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  color: $color-text-primary;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  margin-bottom: $space-5;
+
+  a {
+    color: $color-accent;
+    text-decoration: none;
+    border-bottom: 1px solid $color-border-accent;
+    transition: color $transition-fast, border-color $transition-fast;
+
+    &:hover {
+      color: $color-playing;
+      border-color: $color-accent;
+    }
+  }
+}
+
+.text {
+  font-family: $font-ui;
+  font-size: 0.95rem;
+  color: $color-text-secondary;
+  line-height: 1.8;
+  padding-bottom: 1rem;
+}
+
+@media (max-width: $bp-lg) {
+  .about {
+    padding: 0 0 $space-4;
+  }
+
+  .container {
+    text-align: center;
+  }
+}

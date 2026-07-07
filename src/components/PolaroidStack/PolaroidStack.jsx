@@ -112,7 +112,7 @@ export default function PolaroidStack() {
 
   return (
     <section className={styles.section}>
-      <p className={styles.kicker}>dreaming?</p>
+      {/*<h2 className={styles.kicker}>About</h2>*/}
 
       <div
         className={styles.stage}
@@ -138,7 +138,7 @@ export default function PolaroidStack() {
         ))}
       </div>
 
-      <p className={styles.hint}>does it matter?</p>
+      <p className={styles.hint}>Dreaming... does it matter?</p>
     </section>
   );
 }
