@@ -8,7 +8,13 @@
   flex-direction: column;
   align-items: center;
   gap: $space-6;
-  overflow: hidden;
+  // Let a flicked card fly outside the stack; body's overflow-x:hidden still
+  // guards against a page-level horizontal scrollbar.
+  overflow: visible;
+  // Sit above the neighboring About column so an out-flying card paints on top
+  // of the copy rather than under it (About comes later in the DOM).
+  position: relative;
+  z-index: 2;
 }
 
 .kicker {

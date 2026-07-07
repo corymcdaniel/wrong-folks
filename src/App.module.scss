@@ -5,6 +5,27 @@
   padding-bottom: 68px; // PlayerBar height
 }
 
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(340px, 440px) minmax(280px, 340px);
+  align-items: center;
+  justify-content: center;
+  column-gap: $space-16;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 $space-6;
+  // Don't clip the polaroids as they flick out of their column.
+  overflow: visible;
+}
+
+@media (max-width: $bp-lg) {
+  .showcase {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    row-gap: $space-4;
+  }
+}
+
 .uploadBtn {
   position: fixed;
   bottom: 84px;

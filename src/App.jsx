@@ -9,6 +9,7 @@ import UploadModal from './components/UploadModal/UploadModal';
 import Footer from './components/Footer/Footer';
 import BandPhoto from './components/BandPhoto/BandPhoto';
 import PolaroidStack from './components/PolaroidStack/PolaroidStack';
+import About from './components/About/About';
 import LoginModal from './components/LoginModal/LoginModal';
 import StatsModal from './components/StatsModal/StatsModal';
 import styles from './App.module.scss';
@@ -47,7 +48,10 @@ function Site() {
       <Hero />
       <Intro />
       <MusicSection songs={songs} isLoading={isLoadingSongs} onDelete={handleDelete} onReorder={handleReorder} onUpload={() => setShowUpload(true)} />
-      <PolaroidStack />
+      <div className={styles.showcase}>
+        <PolaroidStack />
+        <About />
+      </div>
       <Footer onLoginClick={() => setShowLogin(true)} onStatsClick={() => setShowStats(true)} />
       <BandPhoto />
       <PlayerBar />
