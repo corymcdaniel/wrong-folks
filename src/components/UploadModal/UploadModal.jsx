@@ -2,7 +2,26 @@ import { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './UploadModal.module.scss';
 
-const MAX_BYTES = 6 * 1024 * 1024;
+const MAX_BYTES  = 10 * 1024 * 1024;
+// Netlify Functions cap request bodies at ~6 MB, so files go up in pieces
+const CHUNK_SIZE = 4 * 1024 * 1024;
+
+async function uploadInChunks(file, id, token) {
+  const count = Math.ceil(file.size / CHUNK_SIZE);
+  for (let i = 0; i < count; i++) {
+    const chunk = file.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+    const res = await fetch(`/api/upload/chunk?id=${id}&index=${i}`, {
+      method: 'POST',
+      headers: {
+        Authorization:  `Bearer ${token}`,
+        'Content-Type': 'application/octet-stream',
+      },
+      body: chunk,
+    });
+    if (!res.ok) throw new Error('Chunk upload failed');
+  }
+  return count;
+}
 
 function getDuration(file) {
   return new Promise((resolve) => {
@@ -48,7 +67,7 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
     e.preventDefault();
     if (!file || !title.trim()) return;
     if (file.size > MAX_BYTES) {
-      setError('File must be under 6 MB. Use a compressed MP3.');
+      setError('File must be under 10 MB. Use a compressed MP3.');
       return;
     }
 
@@ -56,17 +75,24 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
     setError('');
 
     const duration = await getDuration(file);
-    const form = new FormData();
-    form.append('file', file);
-    form.append('title', title.trim());
-    form.append('category', category);
-    if (duration != null) form.append('duration', String(duration));
+    const id       = crypto.randomUUID();
 
     try {
+      const chunks = await uploadInChunks(file, id, token);
       const res = await fetch('/api/upload', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: form,
+        headers: {
+          Authorization:  `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          chunks,
+          title:    title.trim(),
+          category,
+          duration,
+          mimeType: file.type || 'audio/mpeg',
+        }),
       });
       if (!res.ok) throw new Error('Upload failed');
       const song = await res.json();

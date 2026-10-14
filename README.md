@@ -13,6 +13,16 @@ Songs are split into two lists, each with its own Play All, admin upload, drag-t
 
 Each song stores its `category` in its blob metadata. Songs uploaded before categories existed default to `pieces`. Sections are defined in the `SECTIONS` array in `src/App.jsx`. To add another one, add an entry there and add its category to `CATEGORIES` in `netlify/functions/upload-song.js`.
 
+### Upload size
+
+Uploads can be up to **10 MB**. Netlify Functions cap request and response bodies at about 6 MB, so:
+
+- The browser sends the file in 4 MB pieces to `/api/upload/chunk`. They're stored temporarily in the `song-chunks` blob store.
+- A final call to `/api/upload` joins the pieces into a single blob in the `songs` store and deletes them.
+- `/api/song/:id` returns at most 4 MB per range request. Browsers fetch the next range automatically during playback.
+
+To raise the limit, change `MAX_BYTES` in `UploadModal.jsx` and `upload-song.js`, and `MAX_CHUNKS` in both functions.
+
 ## Running locally
 
 Requires [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed globally:
@@ -55,7 +65,6 @@ The hero background is set in `src/components/Hero/Hero.module.scss` and current
 |---|---|
 | `react` / `react-dom` | UI framework |
 | `@netlify/blobs` | Stores audio files as blobs, served via Netlify Function with range request support |
-| `uuid` | Generates unique IDs for each uploaded song |
 | `vite` + `@vitejs/plugin-react` | Build tool — fast HMR, native ESM |
 | `sass` | SCSS support for CSS Modules |
 
