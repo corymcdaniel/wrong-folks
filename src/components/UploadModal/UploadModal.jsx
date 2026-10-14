@@ -20,7 +20,7 @@ function getDuration(file) {
   });
 }
 
-export default function UploadModal({ onClose, onSuccess }) {
+export default function UploadModal({ category, sectionTitle, onClose, onSuccess }) {
   const { token } = useAuth();
   const [title, setTitle]       = useState('');
   const [file, setFile]         = useState(null);
@@ -59,6 +59,7 @@ export default function UploadModal({ onClose, onSuccess }) {
     const form = new FormData();
     form.append('file', file);
     form.append('title', title.trim());
+    form.append('category', category);
     if (duration != null) form.append('duration', String(duration));
 
     try {
@@ -81,7 +82,7 @@ export default function UploadModal({ onClose, onSuccess }) {
     <div className={styles.backdrop} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2 className={styles.heading}>Add Song</h2>
+          <h2 className={styles.heading}>Add to {sectionTitle}</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&times;</button>
         </div>
 

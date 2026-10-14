@@ -2,6 +2,7 @@ import { getStore } from '@netlify/blobs';
 import { v4 as uuidv4 } from 'uuid';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const CATEGORIES     = ['pieces', 'lyrics'];
 
 function authorized(req) {
   const auth = req.headers.get('Authorization') ?? '';
@@ -22,9 +23,14 @@ export default async (req) => {
     const file     = form.get('file');
     const title    = form.get('title');
     const durStr   = form.get('duration');
+    const category = form.get('category') || 'pieces';
 
     if (!file || !title) {
       return Response.json({ error: 'Missing file or title' }, { status: 400 });
+    }
+
+    if (!CATEGORIES.includes(category)) {
+      return Response.json({ error: 'Invalid category' }, { status: 400 });
     }
 
     const id          = uuidv4();
@@ -40,10 +46,11 @@ export default async (req) => {
         mimeType:   file.type || 'audio/mpeg',
         size:       String(file.size),
         duration:   duration != null ? String(duration) : '',
+        category,
       },
     });
 
-    return Response.json({ id, title: title.trim(), uploadedAt, duration, mimeType: file.type });
+    return Response.json({ id, title: title.trim(), uploadedAt, duration, mimeType: file.type, category });
   } catch (err) {
     console.error('upload-song:', err);
     return Response.json({ error: 'Upload failed' }, { status: 500 });

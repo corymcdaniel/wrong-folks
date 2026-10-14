@@ -16,7 +16,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
+    "puppeteer-core": "^25.3.0",
     "sass": "^1.85.1",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-prerender-plugin": "^0.5.13"
   }
 }

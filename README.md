@@ -1,6 +1,17 @@
 # Wrong Folks
 
-Band website for Wrong Folks. One-page site with song list and audio playback. Songs are stored in Netlify Blobs and streamed through Netlify Functions.
+Band website for Wrong Folks. One-page site with song lists and audio playback. Songs are stored in Netlify Blobs and streamed through Netlify Functions.
+
+## Song sections
+
+Songs are split into two lists, each with its own Play All, admin upload, drag-to-reorder and delete:
+
+| Section | Category | Use |
+|---|---|---|
+| Pieces | `pieces` | Instrumentals / soundscapes |
+| Lyrics | `lyrics` | Songs with written lyrics |
+
+Each song stores its `category` in its blob metadata. Songs uploaded before categories existed default to `pieces`. Sections are defined in the `SECTIONS` array in `src/App.jsx`. To add another one, add an entry there and add its category to `CATEGORIES` in `netlify/functions/upload-song.js`.
 
 ## Running locally
 
@@ -36,7 +47,7 @@ ADMIN_PASSWORD=your-password-here
 
 ## Hero image
 
-Drop a photo at `public/hero.jpg`. It will be used as the full-bleed background for the hero section. The gradient overlay is designed to work with dark nature photography.
+The hero background is set in `src/components/Hero/Hero.module.scss` and currently uses `src/images/20231224_132745.jpg`. The gradient overlay is designed to work with dark photography.
 
 ## Packages
 
