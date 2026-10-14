@@ -7,6 +7,7 @@ export function PlayerProvider({ children }) {
   const audioRef        = useRef(null);
   const playlistRef     = useRef(null);
   const playlistIdxRef  = useRef(0);
+  const loopRef         = useRef(false);
   const trackerRef      = useRef(null);
 
   const [currentSong, setCurrentSong]     = useState(null);
@@ -15,6 +16,7 @@ export function PlayerProvider({ children }) {
   const [duration, setDuration]           = useState(0);
   const [playlist, setPlaylist]           = useState(null);
   const [playlistIndex, setPlaylistIndex] = useState(0);
+  const [isPlayAll, setIsPlayAll]         = useState(false);
 
   // Start a song immediately (used internally)
   const loadSong = useRef(null);
@@ -46,7 +48,10 @@ export function PlayerProvider({ children }) {
     const onEnded = () => {
       tracker.end();
       const pl = playlistRef.current;
-      if (pl?.length > 0) {
+      const isLast = playlistIdxRef.current >= (pl?.length ?? 0) - 1;
+      // Single-song plays continue through the section, then stop;
+      // Play All loops back to the start
+      if (pl?.length > 0 && (!isLast || loopRef.current)) {
         const nextIdx = (playlistIdxRef.current + 1) % pl.length;
         playlistIdxRef.current = nextIdx;
         setPlaylistIndex(nextIdx);
@@ -83,20 +88,29 @@ export function PlayerProvider({ children }) {
     };
   }, []);
 
-  const playSong = useCallback((song) => {
+  // `songs` is the list the song belongs to, so playback continues
+  // through it after the song ends
+  const playSong = useCallback((song, songs) => {
     const audio = audioRef.current;
     const pl    = playlistRef.current;
+    const plIdx = pl ? pl.findIndex((s) => s.id === song.id) : -1;
 
-    // If song is in the active playlist, keep queue mode and jump to it
-    if (pl) {
-      const idx = pl.findIndex((s) => s.id === song.id);
-      if (idx !== -1) {
-        playlistIdxRef.current = idx;
-        setPlaylistIndex(idx);
-      } else {
-        playlistRef.current = null;
-        setPlaylist(null);
-      }
+    if (plIdx !== -1) {
+      // Song is in the active queue, so keep queue mode and jump to it
+      playlistIdxRef.current = plIdx;
+      setPlaylistIndex(plIdx);
+    } else if (songs?.length) {
+      const idx = Math.max(0, songs.findIndex((s) => s.id === song.id));
+      playlistRef.current    = songs;
+      playlistIdxRef.current = idx;
+      loopRef.current        = false;
+      setPlaylist(songs);
+      setPlaylistIndex(idx);
+      setIsPlayAll(false);
+    } else {
+      playlistRef.current = null;
+      setPlaylist(null);
+      setIsPlayAll(false);
     }
 
     if (currentSong?.id === song.id) {
@@ -112,8 +126,10 @@ export function PlayerProvider({ children }) {
     if (!songs?.length) return;
     playlistRef.current    = songs;
     playlistIdxRef.current = 0;
+    loopRef.current        = true;
     setPlaylist(songs);
     setPlaylistIndex(0);
+    setIsPlayAll(true);
     loadSong.current(songs[0]);
   }, []);
 
@@ -155,7 +171,7 @@ export function PlayerProvider({ children }) {
   return (
     <PlayerContext.Provider value={{
       currentSong, isPlaying, currentTime, duration,
-      playlist, playlistIndex,
+      playlist, playlistIndex, isPlayAll,
       playSong, playAll, playNext, playPrev, togglePlay, seek,
     }}>
       {children}

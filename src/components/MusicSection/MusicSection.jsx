@@ -6,12 +6,12 @@ import styles from './MusicSection.module.scss';
 
 export default function MusicSection({ id, title, songs, isLoading, onDelete, onUpload, onReorder }) {
   const { isAdmin } = useAuth();
-  const { playAll, playlist } = usePlayer();
+  const { playAll, playlist, isPlayAll } = usePlayer();
   const [dragIndex, setDragIndex] = useState(null);
   const [overIndex, setOverIndex] = useState(null);
 
   // Only highlight "Play All" in the section whose songs are queued
-  const isQueued = !!playlist && songs.some((s) => playlist.some((p) => p.id === s.id));
+  const isQueued = isPlayAll && !!playlist && songs.some((s) => playlist.some((p) => p.id === s.id));
 
   const handleDragStart = (i) => setDragIndex(i);
   const handleDragOver = (i) => setOverIndex(i);
@@ -57,6 +57,7 @@ export default function MusicSection({ id, title, songs, isLoading, onDelete, on
             <SongItem
               key={song.id}
               song={song}
+              songs={songs}
               index={i + 1}
               onDelete={onDelete}
               isDragging={dragIndex === i}
