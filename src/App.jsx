@@ -7,7 +7,6 @@ import MusicSection from './components/MusicSection/MusicSection';
 import PlayerBar from './components/PlayerBar/PlayerBar';
 import UploadModal from './components/UploadModal/UploadModal';
 import Footer from './components/Footer/Footer';
-import BandPhoto from './components/BandPhoto/BandPhoto';
 import PolaroidStack from './components/PolaroidStack/PolaroidStack';
 import About from './components/About/About';
 import LoginModal from './components/LoginModal/LoginModal';
@@ -53,7 +52,6 @@ function Site() {
         <About />
       </div>
       <Footer onLoginClick={() => setShowLogin(true)} onStatsClick={() => setShowStats(true)} />
-      <BandPhoto />
       <PlayerBar />
 
       {showUpload && (
