@@ -23,6 +23,7 @@ export default async (req) => {
           duration:   m.duration   != null ? Number(m.duration)  : null,
           mimeType:   m.mimeType   ?? 'audio/mpeg',
           size:       m.size       ? Number(m.size) : 0,
+          category:   m.category   ?? 'pieces',
         };
       })
     );

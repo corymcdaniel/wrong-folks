@@ -4,7 +4,9 @@ const AuthContext = createContext(null);
 const TOKEN_KEY = 'wf_admin_token';
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => sessionStorage.getItem(TOKEN_KEY));
+  const [token, setToken] = useState(() =>
+    typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(TOKEN_KEY) : null
+  );
 
   const login = useCallback(async (password) => {
     const res = await fetch('/api/login', {

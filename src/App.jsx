@@ -7,18 +7,22 @@ import MusicSection from './components/MusicSection/MusicSection';
 import PlayerBar from './components/PlayerBar/PlayerBar';
 import UploadModal from './components/UploadModal/UploadModal';
 import Footer from './components/Footer/Footer';
-import BandPhoto from './components/BandPhoto/BandPhoto';
 import PolaroidStack from './components/PolaroidStack/PolaroidStack';
 import About from './components/About/About';
 import LoginModal from './components/LoginModal/LoginModal';
 import StatsModal from './components/StatsModal/StatsModal';
 import styles from './App.module.scss';
 
+const SECTIONS = [
+  { category: 'pieces', title: 'Pieces', id: 'music' },
+  { category: 'lyrics', title: 'Lyrics', id: 'lyrics' },
+];
+
 function Site() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, token } = useAuth();
   const [songs, setSongs]           = useState([]);
   const [isLoadingSongs, setLoading] = useState(true);
-  const [showUpload, setShowUpload] = useState(false);
+  const [uploadSection, setUploadSection] = useState(null);
   const [showLogin, setShowLogin]   = useState(false);
   const [showStats, setShowStats]   = useState(false);
 
@@ -32,32 +36,60 @@ function Site() {
 
   const handleUploadSuccess = (song) => {
     setSongs((prev) => [song, ...prev]);
-    setShowUpload(false);
+    setUploadSection(null);
   };
 
   const handleDelete = (id) => {
     setSongs((prev) => prev.filter((s) => s.id !== id));
   };
 
-  const handleReorder = (reordered) => {
-    setSongs(reordered);
+  // The saved order is one list across all sections, so merge the
+  // reordered section back in before saving.
+  const handleReorder = async (category, reordered) => {
+    const merged = [...songs.filter((s) => s.category !== category), ...reordered];
+    setSongs(merged);
+
+    try {
+      await fetch('/api/songs/order', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ order: merged.map((s) => s.id) }),
+      });
+    } catch (err) {
+      console.error('Failed to save order', err);
+    }
   };
 
   return (
     <div className={styles.app}>
       <Hero />
       <Intro />
-      <MusicSection songs={songs} isLoading={isLoadingSongs} onDelete={handleDelete} onReorder={handleReorder} onUpload={() => setShowUpload(true)} />
+      {SECTIONS.map((section) => (
+        <MusicSection
+          key={section.category}
+          id={section.id}
+          title={section.title}
+          songs={songs.filter((s) => s.category === section.category)}
+          isLoading={isLoadingSongs}
+          onDelete={handleDelete}
+          onReorder={(reordered) => handleReorder(section.category, reordered)}
+          onUpload={() => setUploadSection(section)}
+        />
+      ))}
       <div className={styles.showcase}>
         <PolaroidStack />
         <About />
       </div>
       <Footer onLoginClick={() => setShowLogin(true)} onStatsClick={() => setShowStats(true)} />
-      <BandPhoto />
       <PlayerBar />
 
-      {showUpload && (
-        <UploadModal onClose={() => setShowUpload(false)} onSuccess={handleUploadSuccess} />
+      {uploadSection && (
+        <UploadModal
+          category={uploadSection.category}
+          sectionTitle={uploadSection.title}
+          onClose={() => setUploadSection(null)}
+          onSuccess={handleUploadSuccess}
+        />
       )}
       {showLogin && (
         <LoginModal onClose={() => setShowLogin(false)} />

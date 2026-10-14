@@ -11,9 +11,9 @@
 
 .heading {
   font-family: $font-display;
-  font-size: 0.7rem;
+  font-size: 1.15rem;
   font-weight: 400;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: $color-text-dim;
   margin-bottom: $space-6;
@@ -21,7 +21,7 @@
 
 .lead {
   font-family: $font-display;
-  font-style: italic;
+  font-style: normal;
   font-size: clamp(1.15rem, 2.2vw, 1.4rem);
   color: $color-text-primary;
   line-height: 1.7;

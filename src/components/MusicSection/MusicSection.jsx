@@ -4,17 +4,20 @@ import { usePlayer } from '../../contexts/PlayerContext';
 import SongItem from '../SongItem/SongItem';
 import styles from './MusicSection.module.scss';
 
-export default function MusicSection({ songs, isLoading, onDelete, onUpload, onReorder }) {
-  const { isAdmin, token } = useAuth();
+export default function MusicSection({ id, title, songs, isLoading, onDelete, onUpload, onReorder }) {
+  const { isAdmin } = useAuth();
   const { playAll, playlist } = usePlayer();
   const [dragIndex, setDragIndex] = useState(null);
   const [overIndex, setOverIndex] = useState(null);
+
+  // Only highlight "Play All" in the section whose songs are queued
+  const isQueued = !!playlist && songs.some((s) => playlist.some((p) => p.id === s.id));
 
   const handleDragStart = (i) => setDragIndex(i);
   const handleDragOver = (i) => setOverIndex(i);
   const handleDragEnd = () => { setDragIndex(null); setOverIndex(null); };
 
-  const handleDrop = async (dropI) => {
+  const handleDrop = (dropI) => {
     if (dragIndex === null || dragIndex === dropI) { handleDragEnd(); return; }
 
     const reordered = [...songs];
@@ -22,29 +25,19 @@ export default function MusicSection({ songs, isLoading, onDelete, onUpload, onR
     reordered.splice(dropI, 0, moved);
     onReorder(reordered);
     handleDragEnd();
-
-    try {
-      await fetch('/api/songs/order', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ order: reordered.map((s) => s.id) }),
-      });
-    } catch (err) {
-      console.error('Failed to save order', err);
-    }
   };
 
   return (
-    <section className={styles.section} id="music">
+    <section className={styles.section} id={id}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.heading}>Pieces</h2>
+          <h2 className={styles.heading}>{title}</h2>
           <div className={styles.headerActions}>
             {songs.length > 0 && (
               <button
-                className={`${styles.playAllBtn}${playlist ? ` ${styles.playAllActive}` : ''}`}
+                className={`${styles.playAllBtn}${isQueued ? ` ${styles.playAllActive}` : ''}`}
                 onClick={() => playAll(songs)}
-                aria-label="Play all songs"
+                aria-label={`Play all ${title}`}
               >
                 <span className={styles.playAllIcon}>&#9654;&#9654;</span>
                 Play All
