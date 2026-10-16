@@ -72,9 +72,6 @@
 
   > * + * { margin-top: $space-4; }
 
-  // Keep single line breaks so lyrics read line by line
-  p { white-space: pre-line; }
-
   h1, h2, h3 {
     font-family: $font-display;
     font-weight: 400;
@@ -106,7 +103,6 @@
     padding-left: $space-4;
     color: $color-text-secondary;
     font-style: italic;
-    white-space: pre-line;
   }
 
   ul, ol { padding-left: $space-6; }
