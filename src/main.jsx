@@ -21,5 +21,5 @@ if (typeof document !== 'undefined') {
   hydrateRoot(document.getElementById('root'), tree);
 
   // Easter egg for anyone who opens the browser console
-  console.log(cat);
+  console.log(`%c${cat}`, 'color: #6a9a50; font-family: monospace; line-height: 1.1;');
 }
