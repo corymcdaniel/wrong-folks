@@ -72,9 +72,6 @@
 
   > * + * { margin-top: $space-4; }
 
-  // Keep single line breaks so lyrics read line by line
-  p { white-space: pre-line; }
-
   h1, h2, h3 {
     font-family: $font-display;
     font-weight: 400;
@@ -106,7 +103,6 @@
     padding-left: $space-4;
     color: $color-text-secondary;
     font-style: italic;
-    white-space: pre-line;
   }
 
   ul, ol { padding-left: $space-6; }
@@ -118,6 +114,21 @@
     border: none;
     border-top: 1px solid $color-border;
     margin: $space-8 0;
+  }
+
+  // Code blocks keep their spacing, so ASCII art lines up
+  pre {
+    overflow-x: auto;
+    line-height: 1.1;
+    color: $color-text-secondary;
+
+    code {
+      display: block;
+      background: none;
+      padding: 0;
+      font-size: 1.1rem;
+      white-space: pre;
+    }
   }
 
   code {

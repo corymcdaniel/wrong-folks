@@ -15,7 +15,7 @@ Each song stores its `category` in its blob metadata. Songs uploaded before cate
 
 ### Section info modals
 
-A section can have a Markdown file that opens in a modal when its heading is clicked. The Lyrics heading uses `src/content/lyrics.md`. Edit that file to change what the modal shows. Single line breaks are kept, so you can write lyrics line by line.
+A section can have a Markdown file that opens in a modal when its heading is clicked. The Lyrics heading uses `src/content/lyrics.md`. Edit that file to change what the modal shows. It uses standard Markdown, so lines in a paragraph flow together. To force a line break, end the line with a backslash (`\`) or two spaces.
 
 To add a modal to another section, import a `.md` file with `?raw` in `src/App.jsx` and set it as the section's `info` field.
 

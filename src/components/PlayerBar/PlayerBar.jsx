@@ -1,4 +1,5 @@
 import { usePlayer } from '../../contexts/PlayerContext';
+import { consoleEgg } from '../../utils/consoleEggs';
 import styles from './PlayerBar.module.scss';
 
 function stripBand(title) {
@@ -52,6 +53,7 @@ export default function PlayerBar() {
                 value={currentTime}
                 step="0.1"
                 onChange={(e) => seek(parseFloat(e.target.value))}
+                onPointerUp={() => consoleEgg('seek')}
                 aria-label="Seek"
               />
             </div>
