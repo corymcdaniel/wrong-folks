@@ -4,3 +4,36 @@
 > turn into actual songs, not slop that the more I use the more I see the same patterns.  I'm not sure
 > what this world of AI is going to do. The best I can do is investigate, interrogate, and I don't know,
 > maybe one of these songs are kinda cool? It's only under Lyrics that are AI gen'd.  Above is me. Thanks.
+
+```
+            /\_                         _/\
+           /   \_                     _/   \
+          /  .   \_                 _/   .  \
+         /  / \    \_______________/    / \  \
+        |  /   \                       /   \  |
+        | |     \                     /     | |
+        |  \                               /  |
+       /                                       \
+      |      ___                     ___        |
+      |    /     \                 /     \      |
+     |    |   O   |               |   O   |      |
+     |    |  (_)  |               |  (_)  |      |
+     |     \_____/                 \_____/       |
+     |                                           |
+  ---|----------          /\          ----------|---
+     |    ---------      /  \      ---------     |
+  ---|----------         \__/         ----------|---
+      |                   ||                    |
+      |            \______/\______/             |
+       \                                       /
+        \_                                   _/
+          \_                               _/
+            \___                       ___/
+           /    \_____________________/    \
+          /                                 \
+         /    |                       |      \
+        |     |                       |       |
+        |     |                       |       |
+        |    _|_                     _|_      |
+         \__(___)___________________(___)____/
+```
