@@ -11,11 +11,14 @@ import PolaroidStack from './components/PolaroidStack/PolaroidStack';
 import About from './components/About/About';
 import LoginModal from './components/LoginModal/LoginModal';
 import StatsModal from './components/StatsModal/StatsModal';
+import MarkdownModal from './components/MarkdownModal/MarkdownModal';
+import lyricsInfo from './content/lyrics.md?raw';
 import styles from './App.module.scss';
 
+// `info` is optional markdown shown in a modal when the section heading is clicked
 const SECTIONS = [
   { category: 'pieces', title: 'Pieces', id: 'music' },
-  { category: 'lyrics', title: 'Lyrics', id: 'lyrics' },
+  { category: 'lyrics', title: 'Lyrics', id: 'lyrics', info: lyricsInfo },
 ];
 
 function Site() {
@@ -25,6 +28,7 @@ function Site() {
   const [uploadSection, setUploadSection] = useState(null);
   const [showLogin, setShowLogin]   = useState(false);
   const [showStats, setShowStats]   = useState(false);
+  const [infoSection, setInfoSection] = useState(null);
 
   useEffect(() => {
     fetch('/api/songs')
@@ -64,18 +68,24 @@ function Site() {
     <div className={styles.app}>
       <Hero />
       <Intro />
-      {SECTIONS.map((section) => (
-        <MusicSection
-          key={section.category}
-          id={section.id}
-          title={section.title}
-          songs={songs.filter((s) => s.category === section.category)}
-          isLoading={isLoadingSongs}
-          onDelete={handleDelete}
-          onReorder={(reordered) => handleReorder(section.category, reordered)}
-          onUpload={() => setUploadSection(section)}
-        />
-      ))}
+      {SECTIONS.map((section) => {
+        let handleTitleClick = null;
+        if (section.info) handleTitleClick = () => setInfoSection(section);
+
+        return (
+          <MusicSection
+            key={section.category}
+            id={section.id}
+            title={section.title}
+            songs={songs.filter((s) => s.category === section.category)}
+            isLoading={isLoadingSongs}
+            onDelete={handleDelete}
+            onReorder={(reordered) => handleReorder(section.category, reordered)}
+            onUpload={() => setUploadSection(section)}
+            onTitleClick={handleTitleClick}
+          />
+        );
+      })}
       <div className={styles.showcase}>
         <PolaroidStack />
         <About />
@@ -93,6 +103,13 @@ function Site() {
       )}
       {showLogin && (
         <LoginModal onClose={() => setShowLogin(false)} />
+      )}
+      {infoSection && (
+        <MarkdownModal
+          title={infoSection.title}
+          content={infoSection.info}
+          onClose={() => setInfoSection(null)}
+        />
       )}
       {showStats && isAdmin && (
         <StatsModal onClose={() => setShowStats(false)} />

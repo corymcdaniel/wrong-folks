@@ -13,6 +13,12 @@ Songs are split into two lists, each with its own Play All, admin upload, drag-t
 
 Each song stores its `category` in its blob metadata. Songs uploaded before categories existed default to `pieces`. Sections are defined in the `SECTIONS` array in `src/App.jsx`. To add another one, add an entry there and add its category to `CATEGORIES` in `netlify/functions/upload-song.js`.
 
+### Section info modals
+
+A section can have a Markdown file that opens in a modal when its heading is clicked. The Lyrics heading uses `src/content/lyrics.md`. Edit that file to change what the modal shows. Single line breaks are kept, so you can write lyrics line by line.
+
+To add a modal to another section, import a `.md` file with `?raw` in `src/App.jsx` and set it as the section's `info` field.
+
 ### Upload size
 
 Uploads can be up to **10 MB**. Netlify Functions cap request and response bodies at about 6 MB, so:
@@ -67,6 +73,7 @@ The hero background is set in `src/components/Hero/Hero.module.scss` and current
 | `@netlify/blobs` | Stores audio files as blobs, served via Netlify Function with range request support |
 | `vite` + `@vitejs/plugin-react` | Build tool — fast HMR, native ESM |
 | `sass` | SCSS support for CSS Modules |
+| `marked` | Turns the section info Markdown into HTML. It has no DOM dependency, so it works with the prerender step (react-markdown doesn't) |
 
 ## Deploying
 

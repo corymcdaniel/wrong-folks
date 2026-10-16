@@ -1,0 +1,130 @@
+@use '../../styles/variables' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-4;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: $color-bg-elevated;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.18s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-6;
+  border-bottom: 1px solid $color-border;
+}
+
+.heading {
+  font-family: $font-display;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-secondary;
+}
+
+.closeBtn {
+  font-size: 1.3rem;
+  color: $color-text-dim;
+  line-height: 1;
+  padding: 0 $space-1;
+  transition: color $transition-fast;
+
+  &:hover { color: $color-text-primary; }
+}
+
+// Styles for the rendered markdown
+.body {
+  padding: $space-6;
+  overflow-y: auto;
+  color: $color-text-primary;
+  font-size: 0.92rem;
+  line-height: 1.7;
+
+  > * + * { margin-top: $space-4; }
+
+  // Keep single line breaks so lyrics read line by line
+  p { white-space: pre-line; }
+
+  h1, h2, h3 {
+    font-family: $font-display;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: $color-text-primary;
+    line-height: 1.2;
+  }
+
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.4rem; }
+  h3 { font-size: 1.15rem; }
+
+  * + h1, * + h2, * + h3 { margin-top: $space-8; }
+
+  strong { color: $color-text-primary; font-weight: 600; }
+  em { color: $color-text-secondary; }
+
+  a {
+    color: $color-accent;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color $transition-fast;
+
+    &:hover { color: $color-playing; }
+  }
+
+  blockquote {
+    border-left: 2px solid $color-accent-dim;
+    padding-left: $space-4;
+    color: $color-text-secondary;
+    font-style: italic;
+    white-space: pre-line;
+  }
+
+  ul, ol { padding-left: $space-6; }
+  ul { list-style: disc; }
+  ol { list-style: decimal; }
+  li + li { margin-top: $space-1; }
+
+  hr {
+    border: none;
+    border-top: 1px solid $color-border;
+    margin: $space-8 0;
+  }
+
+  code {
+    font-family: $font-mono;
+    font-size: 1.05em;
+    background: $color-bg-card;
+    padding: 0 $space-1;
+    border-radius: 2px;
+  }
+}

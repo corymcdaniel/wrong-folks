@@ -14,7 +14,7 @@ function fmt(sec) {
 }
 
 export default function SongItem({
-  song, index, onDelete,
+  song, songs, index, onDelete,
   isDragging, isDropTarget,
   onDragStart, onDragOver, onDrop, onDragEnd,
 }) {
@@ -53,10 +53,10 @@ export default function SongItem({
       onDragOver={(e) => { e.preventDefault(); onDragOver?.(); }}
       onDrop={(e) => { e.preventDefault(); onDrop?.(); }}
       onDragEnd={onDragEnd}
-      onClick={() => playSong(song)}
+      onClick={() => playSong(song, songs)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && playSong(song)}
+      onKeyDown={(e) => e.key === 'Enter' && playSong(song, songs)}
     >
       {isAdmin && (
         <div className={styles.dragHandle} title="Drag to reorder">
