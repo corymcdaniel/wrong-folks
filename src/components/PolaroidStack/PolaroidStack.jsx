@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import PolaroidCard from './PolaroidCard';
+import { consoleEgg } from '../../utils/consoleEggs';
 import styles from './PolaroidStack.module.scss';
 
 // Pull every polaroid in at build time, sorted by filename for stable order.
@@ -103,6 +104,7 @@ export default function PolaroidStack() {
       let dir = 'right';
       if (dx < 0) dir = 'left';
       startAdvance(dir);
+      consoleEgg('flick');
     } else {
       resetDragVars();
     }

@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef, useState, useEffect, useCallback } from 'react';
 import { createPlayTracker } from '../utils/playTracker';
+import { consoleEgg } from '../utils/consoleEggs';
 
 const PlayerContext = createContext(null);
 
@@ -23,6 +24,7 @@ export function PlayerProvider({ children }) {
   loadSong.current = (song) => {
     const audio = audioRef.current;
     trackerRef.current?.begin(song.id);
+    consoleEgg('play', { title: song.title });
     setCurrentSong(song);
     setCurrentTime(0);
     setDuration(0);
@@ -47,6 +49,7 @@ export function PlayerProvider({ children }) {
     const onError = () => { tracker.pause(); setIsPlaying(false); };
     const onEnded = () => {
       tracker.end();
+      consoleEgg('ended');
       const pl = playlistRef.current;
       const isLast = playlistIdxRef.current >= (pl?.length ?? 0) - 1;
       // Single-song plays continue through the section, then stop;
@@ -114,7 +117,7 @@ export function PlayerProvider({ children }) {
     }
 
     if (currentSong?.id === song.id) {
-      if (isPlaying) { audio.pause(); setIsPlaying(false); }
+      if (isPlaying) { audio.pause(); setIsPlaying(false); consoleEgg('pause'); }
       else            { audio.play().catch(console.error); setIsPlaying(true); }
       return;
     }
@@ -130,6 +133,7 @@ export function PlayerProvider({ children }) {
     setPlaylist(songs);
     setPlaylistIndex(0);
     setIsPlayAll(true);
+    consoleEgg('playAll');
     loadSong.current(songs[0]);
   }, []);
 
@@ -159,7 +163,7 @@ export function PlayerProvider({ children }) {
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current;
-    if (isPlaying) { audio.pause(); setIsPlaying(false); }
+    if (isPlaying) { audio.pause(); setIsPlaying(false); consoleEgg('pause'); }
     else            { audio.play().catch(console.error); setIsPlaying(true); }
   }, [isPlaying]);
 

@@ -11,6 +11,7 @@ import PolaroidStack from './components/PolaroidStack/PolaroidStack';
 import About from './components/About/About';
 import LoginModal from './components/LoginModal/LoginModal';
 import StatsModal from './components/StatsModal/StatsModal';
+import { consoleEgg } from './utils/consoleEggs';
 import MarkdownModal from './components/MarkdownModal/MarkdownModal';
 import lyricsInfo from './content/lyrics.md?raw';
 import styles from './App.module.scss';
@@ -43,6 +44,11 @@ function Site() {
     setUploadSection(null);
   };
 
+  const handleLoginClick = () => {
+    setShowLogin(true);
+    consoleEgg('login');
+  };
+
   const handleDelete = (id) => {
     setSongs((prev) => prev.filter((s) => s.id !== id));
   };
@@ -70,7 +76,12 @@ function Site() {
       <Intro />
       {SECTIONS.map((section) => {
         let handleTitleClick = null;
-        if (section.info) handleTitleClick = () => setInfoSection(section);
+        if (section.info) {
+          handleTitleClick = () => {
+            setInfoSection(section);
+            consoleEgg(section.id);
+          };
+        }
 
         return (
           <MusicSection
@@ -90,7 +101,7 @@ function Site() {
         <PolaroidStack />
         <About />
       </div>
-      <Footer onLoginClick={() => setShowLogin(true)} onStatsClick={() => setShowStats(true)} />
+      <Footer onLoginClick={handleLoginClick} onStatsClick={() => setShowStats(true)} />
       <PlayerBar />
 
       {uploadSection && (
