@@ -4,7 +4,7 @@ import { usePlayer } from '../../contexts/PlayerContext';
 import SongItem from '../SongItem/SongItem';
 import styles from './MusicSection.module.scss';
 
-export default function MusicSection({ id, title, songs, isLoading, onDelete, onUpload, onReorder }) {
+export default function MusicSection({ id, title, songs, isLoading, onDelete, onUpload, onReorder, onTitleClick }) {
   const { isAdmin } = useAuth();
   const { playAll, playlist, isPlayAll } = usePlayer();
   const [dragIndex, setDragIndex] = useState(null);
@@ -31,7 +31,15 @@ export default function MusicSection({ id, title, songs, isLoading, onDelete, on
     <section className={styles.section} id={id}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.heading}>{title}</h2>
+          <h2 className={styles.heading}>
+            {onTitleClick && (
+              <button className={styles.headingBtn} onClick={onTitleClick}>
+                {title}
+                <span className={styles.headingHint} aria-hidden="true">&#8599;</span>
+              </button>
+            )}
+            {!onTitleClick && title}
+          </h2>
           <div className={styles.headerActions}>
             {songs.length > 0 && (
               <button
