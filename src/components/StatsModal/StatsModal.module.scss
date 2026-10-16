@@ -152,3 +152,56 @@
   font-size: 0.75rem;
   white-space: nowrap;
 }
+
+// --- Console section ---
+.section {
+  margin-top: $space-10;
+  padding-top: $space-6;
+  border-top: 1px solid $color-border;
+}
+
+.sectionHeading {
+  font-family: $font-display;
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-secondary;
+  margin-bottom: $space-4;
+}
+
+.totalValueSmall {
+  font-size: 0.78rem;
+  color: $color-text-secondary;
+  line-height: 1.9;
+}
+
+.commandList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-bottom: $space-6;
+}
+
+.commandChip {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-family: $font-mono;
+  font-size: 1rem;
+  color: $color-text-primary;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: 3px;
+  padding: $space-1 $space-3;
+  transition: border-color $transition-fast, transform $transition-fast;
+
+  &:hover {
+    border-color: $color-border-accent;
+    transform: translateY(-1px);
+  }
+}
+
+.commandCount {
+  color: $color-accent;
+}

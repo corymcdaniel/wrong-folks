@@ -29,6 +29,19 @@ Uploads can be up to **10 MB**. Netlify Functions cap request and response bodie
 
 To raise the limit, change `MAX_BYTES` in `UploadModal.jsx` and `upload-song.js`, and `MAX_CHUNKS` in both functions.
 
+## Console easter eggs
+
+Open the browser console on the site to see a title card, the cat and dry reactions to what you do on the page. Visitors can type `folks.help()` to see the commands. The messages are in `src/utils/consoleEggs.js` and the ASCII art is in `src/content/*.txt`.
+
+### Console logging
+
+Each `folks.*` command someone types is logged to the `console` Netlify Blobs store by `/api/track-console`:
+
+- `events/<epoch ms>-<command>-<random>`: the command, the anonymous session ID (the same one play tracking uses), a coarse device type (`mobile`/`desktop`) and browser family, and a timestamp. No IP address or full user agent is stored.
+- `sessions/<sessionId>`: one key per session, used to count unique sessions.
+
+Counts come from listing the event keys rather than from a shared rollup, so simultaneous requests can't overwrite each other. Admins can see totals, per-command counts and the 15 most recent commands in the Console section of the Stats modal.
+
 ## Running locally
 
 Requires [Netlify CLI](https://docs.netlify.com/cli/get-started/) installed globally:

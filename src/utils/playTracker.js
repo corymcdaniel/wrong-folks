@@ -6,7 +6,7 @@ const makeId = () => {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 };
 
-const getSessionId = () => {
+export const getSessionId = () => {
   try {
     let id = localStorage.getItem(SESSION_KEY);
     if (!id) {

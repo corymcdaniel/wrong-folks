@@ -19,6 +19,68 @@ const formatDate = (iso) => {
   return d.toLocaleString();
 };
 
+// folks.* commands typed in the browser console
+function ConsoleStats({ stats }) {
+  return (
+    <section className={styles.section}>
+      <h3 className={styles.sectionHeading}>Console</h3>
+
+      <div className={styles.totals}>
+        <div className={styles.totalCell}>
+          <span className={styles.totalLabel}>Commands</span>
+          <span className={styles.totalValue}>{stats.total}</span>
+        </div>
+        <div className={styles.totalCell}>
+          <span className={styles.totalLabel}>Sessions</span>
+          <span className={styles.totalValue}>{stats.sessions}</span>
+        </div>
+        <div className={styles.totalCell}>
+          <span className={styles.totalLabel}>Last</span>
+          <span className={styles.totalValueSmall}>{formatDate(stats.lastAt)}</span>
+        </div>
+      </div>
+
+      {stats.total === 0 && (
+        <p className={styles.muted}>Nobody has typed a folks command yet.</p>
+      )}
+
+      {stats.total > 0 && (
+        <>
+          <div className={styles.commandList}>
+            {stats.commands.map((c) => (
+              <span key={c.command} className={styles.commandChip}>
+                folks.{c.command}()
+                <span className={styles.commandCount}>{c.count}</span>
+              </span>
+            ))}
+          </div>
+
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Command</th>
+                <th>Session</th>
+                <th>Device</th>
+                <th>When</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats.recent.map((e) => (
+                <tr key={`${e.at}-${e.sessionId}`}>
+                  <td className={styles.title}>folks.{e.command}()</td>
+                  <td className={styles.dim}>{e.sessionId.slice(0, 8)}</td>
+                  <td className={styles.dim}>{e.device} / {e.browser}</td>
+                  <td className={styles.dim}>{formatDate(e.at)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+    </section>
+  );
+}
+
 export default function StatsModal({ onClose }) {
   const { token } = useAuth();
   const [data, setData]       = useState(null);
@@ -98,6 +160,8 @@ export default function StatsModal({ onClose }) {
                   </tbody>
                 </table>
               )}
+
+              {data.console && <ConsoleStats stats={data.console} />}
             </>
           )}
         </div>

@@ -6,6 +6,7 @@ import cat from '../content/cat.txt?raw';
 import cassette from '../content/cassette.txt?raw';
 import headphones from '../content/headphones.txt?raw';
 import door from '../content/door.txt?raw';
+import { getSessionId } from './playTracker';
 
 const STYLES = {
   title: [
@@ -220,15 +221,26 @@ export function consoleEgg(event, data = {}) {
 }
 
 // Anything typed as `folks.something()` in the console
+// Logs which folks.* command was typed (anonymous session id only)
+function trackCommand(command) {
+  fetch('/api/track-console', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ command, sessionId: getSessionId() }),
+    keepalive: true,
+  }).catch(() => { /* best-effort */ });
+}
+
 function makeCommands() {
-  const run = (fn) => () => {
+  const run = (name, fn) => () => {
     stats.commandsTyped += 1;
+    trackCommand(name);
     fn();
     return '—';
   };
 
   return {
-    help: run(() => {
+    help: run('help', () => {
       console.group('%cthings you can type', STYLES.subtitle);
       say('folks.help()      this, again', STYLES.command);
       say('folks.cat()       the cat', STYLES.command);
@@ -238,13 +250,13 @@ function makeCommands() {
       say('folks.secret()    do not', STYLES.command);
       console.groupEnd();
     }),
-    cat: run(() => draw(cat, 'still the same cat. it does not do tricks.')),
-    fortune: run(() => say(`🥠 ${pick(FORTUNES)}`)),
-    stats: run(() => {
+    cat: run('cat', () => draw(cat, 'still the same cat. it does not do tricks.')),
+    fortune: run('fortune', () => say(`🥠 ${pick(FORTUNES)}`)),
+    stats: run('stats', () => {
       console.table(stats);
-      say('none of this is sent anywhere. it is just between you and the console.');
+      say('the band gets an anonymous count of which folks commands get typed. everything else stays here.');
     }),
-    vibe: run(() => {
+    vibe: run('vibe', () => {
       if (playing) {
         say('vibe: listening. correct.');
         return;
@@ -255,7 +267,7 @@ function makeCommands() {
       }
       say('vibe: between songs. contemplative. possibly hungry.');
     }),
-    secret: run(() => {
+    secret: run('secret', () => {
       say('there is no secret.');
       say('you checked anyway. that is the secret.', STYLES.milestone);
     }),
