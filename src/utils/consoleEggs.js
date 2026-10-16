@@ -3,11 +3,9 @@
 // - `installConsoleEggs()` runs once on load: title card, page-level
 //   listeners, and the `folks` object people can type into the console
 import cat from '../content/cat.txt?raw';
-import soup from '../content/soup.txt?raw';
 import cassette from '../content/cassette.txt?raw';
 import headphones from '../content/headphones.txt?raw';
 import door from '../content/door.txt?raw';
-import soupLyric from '../lyrics/0001.txt?raw';
 
 const STYLES = {
   title: [
@@ -68,8 +66,8 @@ const LINES = {
     () => 'into the pile it goes.',
   ],
   lyricsClose: [
-    () => 'closed the lyrics. the soup is still cold.',
-    () => 'you put the soup back.',
+    () => 'lyrics closed. the words are still in there.',
+    () => 'you closed the lyrics. they will keep.',
   ],
   login: [
     () => 'this door is for the band. the band knows who they are.',
@@ -103,7 +101,7 @@ const SECTION_LINES = {
 
 const FORTUNES = [
   'a song you have not heard yet is about to be your favorite. or your least favorite. one of those.',
-  'soup is a state of mind.',
+  'turn it up one more notch. that one.',
   'you will be asked to turn it down. do not.',
   'a stranger will hum something. it will be this.',
   'the next photo will be blurry. that is on purpose.',
@@ -137,7 +135,7 @@ const MILESTONES = {
     25: 'twenty-five flicks. you have seen every photo at least twice. they have seen you too.',
   },
   lyricsOpened: {
-    3:  'third time opening the lyrics. the soup has not gotten warmer.',
+    3:  'third time opening the lyrics. they have not changed. we checked.',
   },
 };
 
@@ -204,7 +202,7 @@ export function consoleEgg(event, data = {}) {
   }
 
   if (event === 'lyrics') {
-    if (!count('lyricsOpened')) draw(soup, 'no steam. you do the math.');
+    if (!count('lyricsOpened')) say('lyrics. read them slowly. or quickly. we cannot tell.');
     return;
   }
 
@@ -234,7 +232,6 @@ function makeCommands() {
       console.group('%cthings you can type', STYLES.subtitle);
       say('folks.help()      this, again', STYLES.command);
       say('folks.cat()       the cat', STYLES.command);
-      say('folks.soup()      a lyric, served cold', STYLES.command);
       say('folks.fortune()   advice nobody asked for', STYLES.command);
       say('folks.stats()     what you have done here', STYLES.command);
       say('folks.vibe()      a reading', STYLES.command);
@@ -242,10 +239,6 @@ function makeCommands() {
       console.groupEnd();
     }),
     cat: run(() => draw(cat, 'still the same cat. it does not do tricks.')),
-    soup: run(() => {
-      draw(soup);
-      say(soupLyric.trim(), 'color: #cdc8b5; font-style: italic; line-height: 1.6;');
-    }),
     fortune: run(() => say(`🥠 ${pick(FORTUNES)}`)),
     stats: run(() => {
       console.table(stats);
