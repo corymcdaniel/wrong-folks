@@ -118,7 +118,7 @@ export function PlayerProvider({ children }) {
 
     if (currentSong?.id === song.id) {
       if (isPlaying) { audio.pause(); setIsPlaying(false); consoleEgg('pause'); }
-      else            { audio.play().catch(console.error); setIsPlaying(true); }
+      else            { audio.play().catch(console.error); setIsPlaying(true); consoleEgg('resume'); }
       return;
     }
 
@@ -143,6 +143,7 @@ export function PlayerProvider({ children }) {
     const idx = (playlistIdxRef.current + 1) % pl.length;
     playlistIdxRef.current = idx;
     setPlaylistIndex(idx);
+    consoleEgg('next');
     loadSong.current(pl[idx]);
   }, []);
 
@@ -158,13 +159,14 @@ export function PlayerProvider({ children }) {
     const idx = (playlistIdxRef.current - 1 + pl.length) % pl.length;
     playlistIdxRef.current = idx;
     setPlaylistIndex(idx);
+    consoleEgg('prev');
     loadSong.current(pl[idx]);
   }, []);
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current;
     if (isPlaying) { audio.pause(); setIsPlaying(false); consoleEgg('pause'); }
-    else            { audio.play().catch(console.error); setIsPlaying(true); }
+    else            { audio.play().catch(console.error); setIsPlaying(true); consoleEgg('resume'); }
   }, [isPlaying]);
 
   const seek = useCallback((time) => {

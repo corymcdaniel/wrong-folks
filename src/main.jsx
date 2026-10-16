@@ -1,7 +1,6 @@
 import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import App from './App';
-import { consoleEgg } from './utils/consoleEggs';
 import './styles/global.scss';
 
 const tree = (
@@ -19,7 +18,4 @@ export async function prerender() {
 // Client-side hydration of the prerendered markup.
 if (typeof document !== 'undefined') {
   hydrateRoot(document.getElementById('root'), tree);
-
-  // Easter egg for anyone who opens the browser console
-  consoleEgg('welcome');
 }

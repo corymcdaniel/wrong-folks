@@ -11,7 +11,7 @@ import PolaroidStack from './components/PolaroidStack/PolaroidStack';
 import About from './components/About/About';
 import LoginModal from './components/LoginModal/LoginModal';
 import StatsModal from './components/StatsModal/StatsModal';
-import { consoleEgg } from './utils/consoleEggs';
+import { consoleEgg, installConsoleEggs } from './utils/consoleEggs';
 import MarkdownModal from './components/MarkdownModal/MarkdownModal';
 import lyricsInfo from './content/lyrics.md?raw';
 import styles from './App.module.scss';
@@ -31,6 +31,11 @@ function Site() {
   const [showStats, setShowStats]   = useState(false);
   const [infoSection, setInfoSection] = useState(null);
 
+  // Console easter eggs, set up after mount so they can watch the rendered sections
+  useEffect(() => {
+    installConsoleEggs();
+  }, []);
+
   useEffect(() => {
     fetch('/api/songs')
       .then((r) => r.ok ? r.json() : [])
@@ -42,6 +47,11 @@ function Site() {
   const handleUploadSuccess = (song) => {
     setSongs((prev) => [song, ...prev]);
     setUploadSection(null);
+  };
+
+  const handleInfoClose = () => {
+    consoleEgg(`${infoSection.id}Close`);
+    setInfoSection(null);
   };
 
   const handleLoginClick = () => {
@@ -119,7 +129,7 @@ function Site() {
         <MarkdownModal
           title={infoSection.title}
           content={infoSection.info}
-          onClose={() => setInfoSection(null)}
+          onClose={handleInfoClose}
         />
       )}
       {showStats && isAdmin && (
