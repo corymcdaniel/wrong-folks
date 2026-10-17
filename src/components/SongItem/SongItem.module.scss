@@ -77,7 +77,7 @@
 .trackNum {
   font-family: $font-mono;
   font-size: 1rem;
-  color: $color-text-dim;
+  color: $color-text-muted;
   letter-spacing: 0.04em;
   transition: opacity $transition-fast;
 }
@@ -145,7 +145,7 @@
 .duration {
   font-family: $font-mono;
   font-size: 0.95rem;
-  color: $color-text-dim;
+  color: $color-text-muted;
   letter-spacing: 0.04em;
   white-space: nowrap;
   min-width: 36px;
