@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import useEscapeKey from '../../hooks/useEscapeKey';
 import styles from './UploadModal.module.scss';
 
 const MAX_BYTES  = 10 * 1024 * 1024;
@@ -48,6 +49,7 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
   const [isUploading, setUploading] = useState(false);
   const [error, setError]       = useState('');
   const fileRef = useRef(null);
+  useEscapeKey(onClose);
 
   const setFileAndTitle = (f) => {
     setFile(f);
@@ -108,9 +110,15 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="upload-heading"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.header}>
-          <h2 className={styles.heading}>Add to {sectionTitle}</h2>
+          <h2 id="upload-heading" className={styles.heading}>Add to {sectionTitle}</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&times;</button>
         </div>
 

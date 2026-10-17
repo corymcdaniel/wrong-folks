@@ -11,6 +11,27 @@ html {
   scroll-behavior: smooth;
 }
 
+// Visible focus ring for keyboard users (mouse clicks don't trigger it)
+:focus-visible {
+  outline: 2px solid $color-accent-text;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+// Respect the OS "reduce motion" setting site-wide
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  // The glass background is an animated GIF, which CSS can't pause
+  body { background: $color-bg-base !important; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 body {
   font-family: $font-ui;
   // glass.gif as the fixed, full-viewport background. The dark gradient on top

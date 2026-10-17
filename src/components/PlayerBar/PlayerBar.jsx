@@ -20,7 +20,7 @@ export default function PlayerBar() {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className={styles.bar}>
+    <div className={styles.bar} role="region" aria-label="Audio player">
       <div className={styles.inner}>
         <span className={styles.songTitle}>{stripBand(currentSong.title)}</span>
 
@@ -55,6 +55,7 @@ export default function PlayerBar() {
                 onChange={(e) => seek(parseFloat(e.target.value))}
                 onPointerUp={() => consoleEgg('seek')}
                 aria-label="Seek"
+                aria-valuetext={`${fmt(currentTime)} of ${fmt(duration)}`}
               />
             </div>
             <span className={styles.time}>{fmt(duration)}</span>

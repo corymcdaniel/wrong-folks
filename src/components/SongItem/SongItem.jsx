@@ -38,6 +38,14 @@ export default function SongItem({
     }
   };
 
+  // Rows act as buttons, so Enter and Space both play
+  const handleKeyDown = (e) => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    playSong(song, songs);
+  };
+
   const handleEdit = (e) => {
     e.stopPropagation();
     onEdit(song);
@@ -62,7 +70,7 @@ export default function SongItem({
       onClick={() => playSong(song, songs)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && playSong(song, songs)}
+      onKeyDown={handleKeyDown}
     >
       {isAdmin && (
         <div className={styles.dragHandle} title="Drag to reorder">

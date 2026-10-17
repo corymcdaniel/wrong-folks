@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import useEscapeKey from '../../hooks/useEscapeKey';
 import SongNotes from '../SongNotes/SongNotes';
 // Shares the upload form's look so both admin modals match
 import styles from '../UploadModal/UploadModal.module.scss';
@@ -11,13 +12,7 @@ export default function EditSongModal({ song, onClose, onSuccess }) {
   const [isSaving, setSaving] = useState(false);
   const [error, setError]     = useState('');
 
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+  useEscapeKey(onClose);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

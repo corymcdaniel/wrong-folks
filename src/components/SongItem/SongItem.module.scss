@@ -12,7 +12,8 @@
   user-select: none;
   transition: background $transition-fast, border-top-color $transition-fast, opacity $transition-fast;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background: rgba(255, 255, 255, 0.022);
 
     .trackNum { opacity: 0; }
@@ -51,7 +52,8 @@
   transition: opacity $transition-fast;
   cursor: grab;
 
-  .item:hover & {
+  .item:hover &,
+  .item:focus-within & {
     opacity: 1;
   }
 
@@ -159,12 +161,13 @@
   padding: $space-1 $space-2;
   transition: opacity $transition-fast, color $transition-fast, transform $transition-fast;
 
-  .item:hover & {
+  .item:hover &,
+  .item:focus-within & {
     opacity: 1;
   }
 
   &:hover {
-    color: $color-accent;
+    color: $color-accent-text;
     transform: rotate(-12deg);
   }
 }
@@ -176,7 +179,8 @@
   padding: $space-1 $space-2;
   transition: opacity $transition-fast, color $transition-fast;
 
-  .item:hover & {
+  .item:hover &,
+  .item:focus-within & {
     opacity: 1;
   }
 

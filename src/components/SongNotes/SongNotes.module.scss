@@ -17,7 +17,7 @@
   em     { font-style: italic; }
 
   a {
-    color: $color-accent;
+    color: $color-accent-text;
     text-decoration: underline;
     text-underline-offset: 2px;
     transition: color $transition-fast;
@@ -70,7 +70,7 @@
   transition: color $transition-fast, letter-spacing $transition-normal;
 
   &:hover {
-    color: $color-accent;
+    color: $color-accent-text;
     letter-spacing: 0.16em;
   }
 }

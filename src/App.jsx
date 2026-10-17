@@ -92,36 +92,39 @@ function Site() {
 
   return (
     <div className={styles.app}>
+      <a className={styles.skipLink} href="#music">Skip to music</a>
       <Hero />
-      <Intro />
-      {SECTIONS.map((section) => {
-        let handleTitleClick = null;
-        if (section.info) {
-          handleTitleClick = () => {
-            setInfoSection(section);
-            consoleEgg(section.id);
-          };
-        }
+      <main>
+        <Intro />
+        {SECTIONS.map((section) => {
+          let handleTitleClick = null;
+          if (section.info) {
+            handleTitleClick = () => {
+              setInfoSection(section);
+              consoleEgg(section.id);
+            };
+          }
 
-        return (
-          <MusicSection
-            key={section.category}
-            id={section.id}
-            title={section.title}
-            songs={songs.filter((s) => s.category === section.category)}
-            isLoading={isLoadingSongs}
-            onDelete={handleDelete}
-            onEdit={setEditingSong}
-            onReorder={(reordered) => handleReorder(section.category, reordered)}
-            onUpload={() => setUploadSection(section)}
-            onTitleClick={handleTitleClick}
-          />
-        );
-      })}
-      <div className={styles.showcase}>
-        <PolaroidStack />
-        <About />
-      </div>
+          return (
+            <MusicSection
+              key={section.category}
+              id={section.id}
+              title={section.title}
+              songs={songs.filter((s) => s.category === section.category)}
+              isLoading={isLoadingSongs}
+              onDelete={handleDelete}
+              onEdit={setEditingSong}
+              onReorder={(reordered) => handleReorder(section.category, reordered)}
+              onUpload={() => setUploadSection(section)}
+              onTitleClick={handleTitleClick}
+            />
+          );
+        })}
+        <div className={styles.showcase}>
+          <PolaroidStack />
+          <About />
+        </div>
+      </main>
       <Footer onLoginClick={handleLoginClick} onStatsClick={() => setShowStats(true)} />
       <PlayerBar />
 

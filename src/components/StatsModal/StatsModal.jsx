@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import useEscapeKey from '../../hooks/useEscapeKey';
 import styles from './StatsModal.module.scss';
 
 const formatDuration = (totalSeconds) => {
@@ -25,6 +26,8 @@ export default function StatsModal({ onClose }) {
   const [error, setError]     = useState('');
   const [loading, setLoading] = useState(true);
 
+  useEscapeKey(onClose);
+
   useEffect(() => {
     let cancelled = false;
     fetch('/api/stats', { headers: { Authorization: `Bearer ${token}` } })
@@ -40,9 +43,15 @@ export default function StatsModal({ onClose }) {
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="stats-heading"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.header}>
-          <h2 className={styles.heading}>Listening Stats</h2>
+          <h2 id="stats-heading" className={styles.heading}>Listening Stats</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&times;</button>
         </div>
 

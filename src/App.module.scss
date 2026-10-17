@@ -36,7 +36,7 @@
   border-radius: 50%;
   background: $color-bg-elevated;
   border: 1px solid $color-border-accent;
-  color: $color-accent;
+  color: $color-accent-text;
   font-size: 1.3rem;
   font-weight: 300;
   display: flex;
@@ -54,4 +54,22 @@
   &:active {
     transform: scale(0.96);
   }
+}
+
+// Lets keyboard users jump past the hero straight to the music
+.skipLink {
+  position: fixed;
+  top: $space-2;
+  left: $space-2;
+  z-index: 300;
+  padding: $space-2 $space-4;
+  background: $color-bg-elevated;
+  border: 1px solid $color-accent;
+  border-radius: 3px;
+  color: $color-text-primary;
+  font-size: 0.85rem;
+  transform: translateY(-200%);
+  transition: transform $transition-fast;
+
+  &:focus-visible { transform: translateY(0); }
 }
