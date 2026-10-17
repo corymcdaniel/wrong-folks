@@ -6,6 +6,7 @@ import Intro from './components/Intro/Intro';
 import MusicSection from './components/MusicSection/MusicSection';
 import PlayerBar from './components/PlayerBar/PlayerBar';
 import UploadModal from './components/UploadModal/UploadModal';
+import EditSongModal from './components/EditSongModal/EditSongModal';
 import Footer from './components/Footer/Footer';
 import PolaroidStack from './components/PolaroidStack/PolaroidStack';
 import About from './components/About/About';
@@ -27,6 +28,7 @@ function Site() {
   const [songs, setSongs]           = useState([]);
   const [isLoadingSongs, setLoading] = useState(true);
   const [uploadSection, setUploadSection] = useState(null);
+  const [editingSong, setEditingSong] = useState(null);
   const [showLogin, setShowLogin]   = useState(false);
   const [showStats, setShowStats]   = useState(false);
   const [infoSection, setInfoSection] = useState(null);
@@ -47,6 +49,14 @@ function Site() {
   const handleUploadSuccess = (song) => {
     setSongs((prev) => [song, ...prev]);
     setUploadSection(null);
+  };
+
+  const handleEditSuccess = ({ id, title, notes }) => {
+    setSongs((prev) => prev.map((s) => {
+      if (s.id !== id) return s;
+      return { ...s, title, notes };
+    }));
+    setEditingSong(null);
   };
 
   const handleInfoClose = () => {
@@ -82,35 +92,39 @@ function Site() {
 
   return (
     <div className={styles.app}>
+      <a className={styles.skipLink} href="#music">Skip to music</a>
       <Hero />
-      <Intro />
-      {SECTIONS.map((section) => {
-        let handleTitleClick = null;
-        if (section.info) {
-          handleTitleClick = () => {
-            setInfoSection(section);
-            consoleEgg(section.id);
-          };
-        }
+      <main>
+        <Intro />
+        {SECTIONS.map((section) => {
+          let handleTitleClick = null;
+          if (section.info) {
+            handleTitleClick = () => {
+              setInfoSection(section);
+              consoleEgg(section.id);
+            };
+          }
 
-        return (
-          <MusicSection
-            key={section.category}
-            id={section.id}
-            title={section.title}
-            songs={songs.filter((s) => s.category === section.category)}
-            isLoading={isLoadingSongs}
-            onDelete={handleDelete}
-            onReorder={(reordered) => handleReorder(section.category, reordered)}
-            onUpload={() => setUploadSection(section)}
-            onTitleClick={handleTitleClick}
-          />
-        );
-      })}
-      <div className={styles.showcase}>
-        <PolaroidStack />
-        <About />
-      </div>
+          return (
+            <MusicSection
+              key={section.category}
+              id={section.id}
+              title={section.title}
+              songs={songs.filter((s) => s.category === section.category)}
+              isLoading={isLoadingSongs}
+              onDelete={handleDelete}
+              onEdit={setEditingSong}
+              onReorder={(reordered) => handleReorder(section.category, reordered)}
+              onUpload={() => setUploadSection(section)}
+              onTitleClick={handleTitleClick}
+            />
+          );
+        })}
+        <div className={styles.showcase}>
+          <PolaroidStack />
+          <About />
+        </div>
+      </main>
       <Footer onLoginClick={handleLoginClick} onStatsClick={() => setShowStats(true)} />
       <PlayerBar />
 
@@ -120,6 +134,13 @@ function Site() {
           sectionTitle={uploadSection.title}
           onClose={() => setUploadSection(null)}
           onSuccess={handleUploadSuccess}
+        />
+      )}
+      {editingSong && (
+        <EditSongModal
+          song={editingSong}
+          onClose={() => setEditingSong(null)}
+          onSuccess={handleEditSuccess}
         />
       )}
       {showLogin && (

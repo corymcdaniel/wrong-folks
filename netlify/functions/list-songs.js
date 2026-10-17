@@ -6,7 +6,8 @@ export default async (req) => {
   }
 
   try {
-    const store = getStore('songs');
+    const store        = getStore('songs');
+    const detailsStore = getStore('song-details');
     const { blobs } = await store.list();
 
     const songKeys = blobs.filter(({ key }) => !key.startsWith('__'));
@@ -14,11 +15,16 @@ export default async (req) => {
     // list() doesn't return user metadata — fetch it per-blob in parallel
     const songs = await Promise.all(
       songKeys.map(async ({ key }) => {
-        const result = await store.getMetadata(key);
+        const [result, details] = await Promise.all([
+          store.getMetadata(key),
+          detailsStore.get(key, { type: 'json' }),
+        ]);
         const m = result?.metadata ?? {};
+        // A title edited after upload lives in song-details and wins over the original
         return {
           id:         key,
-          title:      m.title      ?? 'Untitled',
+          title:      details?.title || m.title || 'Untitled',
+          notes:      details?.notes ?? '',
           uploadedAt: m.uploadedAt ?? null,
           duration:   m.duration   != null ? Number(m.duration)  : null,
           mimeType:   m.mimeType   ?? 'audio/mpeg',

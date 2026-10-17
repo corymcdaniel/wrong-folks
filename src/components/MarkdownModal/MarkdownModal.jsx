@@ -1,18 +1,13 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { marked } from 'marked';
+import useEscapeKey from '../../hooks/useEscapeKey';
 import styles from './MarkdownModal.module.scss';
 
 // Content comes from markdown files in the repo, so rendering its HTML is safe
 export default function MarkdownModal({ title, content, onClose }) {
   const html = useMemo(() => marked.parse(content), [content]);
 
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+  useEscapeKey(onClose);
 
   return (
     <div className={styles.backdrop} onClick={onClose}>

@@ -1,5 +1,6 @@
 import { usePlayer } from '../../contexts/PlayerContext';
 import { useAuth } from '../../contexts/AuthContext';
+import SongNotes from '../SongNotes/SongNotes';
 import styles from './SongItem.module.scss';
 
 function stripBand(title) {
@@ -14,7 +15,7 @@ function fmt(sec) {
 }
 
 export default function SongItem({
-  song, songs, index, onDelete,
+  song, songs, index, onDelete, onEdit,
   isDragging, isDropTarget,
   onDragStart, onDragOver, onDrop, onDragEnd,
 }) {
@@ -37,6 +38,19 @@ export default function SongItem({
     }
   };
 
+  // Rows act as buttons, so Enter and Space both play
+  const handleKeyDown = (e) => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    playSong(song, songs);
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    onEdit(song);
+  };
+
   const className = [
     styles.item,
     isActive      ? styles.active      : '',
@@ -56,7 +70,7 @@ export default function SongItem({
       onClick={() => playSong(song, songs)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && playSong(song, songs)}
+      onKeyDown={handleKeyDown}
     >
       {isAdmin && (
         <div className={styles.dragHandle} title="Drag to reorder">
@@ -77,10 +91,23 @@ export default function SongItem({
         )}
       </div>
 
-      <span className={styles.title}>{stripBand(song.title)}</span>
+      <div className={styles.titleBlock}>
+        <span className={styles.title}>{stripBand(song.title)}</span>
+        {song.notes && <SongNotes notes={song.notes} />}
+      </div>
 
       <div className={styles.right}>
         <span className={styles.duration}>{fmt(song.duration)}</span>
+        {isAdmin && (
+          <button
+            className={styles.editBtn}
+            onClick={handleEdit}
+            aria-label={`Edit ${song.title}`}
+            title="Edit title & notes"
+          >
+            &#9998;
+          </button>
+        )}
         {isAdmin && (
           <button
             className={styles.deleteBtn}

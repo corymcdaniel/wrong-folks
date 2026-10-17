@@ -1,0 +1,76 @@
+@use '../../styles/variables' as *;
+
+.notes {
+  margin-top: $space-1;
+  cursor: auto;
+  user-select: text;
+}
+
+.body {
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: $color-text-secondary;
+
+  > * + * { margin-top: $space-2; }
+
+  strong { color: $color-text-primary; font-weight: 600; }
+  em     { font-style: italic; }
+
+  a {
+    color: $color-accent-text;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color $transition-fast;
+
+    &:hover { color: $color-playing; }
+  }
+
+  blockquote {
+    border-left: 2px solid $color-accent-dim;
+    padding-left: $space-3;
+    font-style: italic;
+  }
+
+  ul, ol { padding-left: $space-5; }
+  ul { list-style: disc; }
+  ol { list-style: decimal; }
+
+  code {
+    font-family: $font-mono;
+    font-size: 1.1em;
+    background: $color-bg-card;
+    padding: 0 $space-1;
+    border-radius: 2px;
+  }
+}
+
+.collapsed {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.expanded {
+  animation: reveal $transition-slow;
+}
+
+@keyframes reveal {
+  from { opacity: 0.4; transform: translateY(-2px); }
+  to   { opacity: 1;   transform: translateY(0); }
+}
+
+.toggle {
+  margin-top: 2px;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-dim;
+  transition: color $transition-fast, letter-spacing $transition-normal;
+
+  &:hover {
+    color: $color-accent-text;
+    letter-spacing: 0.16em;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import useEscapeKey from '../../hooks/useEscapeKey';
 import styles from './UploadModal.module.scss';
 
 const MAX_BYTES  = 10 * 1024 * 1024;
@@ -42,11 +43,13 @@ function getDuration(file) {
 export default function UploadModal({ category, sectionTitle, onClose, onSuccess }) {
   const { token } = useAuth();
   const [title, setTitle]       = useState('');
-  const [file, setFile]         = useState(null);
+  const [notes, setNotes]       = useState('');
+  const [file, setFile]       = useState(null);
   const [isDragging, setDrag]   = useState(false);
   const [isUploading, setUploading] = useState(false);
   const [error, setError]       = useState('');
   const fileRef = useRef(null);
+  useEscapeKey(onClose);
 
   const setFileAndTitle = (f) => {
     setFile(f);
@@ -89,6 +92,7 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
           id,
           chunks,
           title:    title.trim(),
+          notes:    notes.trim(),
           category,
           duration,
           mimeType: file.type || 'audio/mpeg',
@@ -106,9 +110,15 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="upload-heading"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.header}>
-          <h2 className={styles.heading}>Add to {sectionTitle}</h2>
+          <h2 id="upload-heading" className={styles.heading}>Add to {sectionTitle}</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&times;</button>
         </div>
 
@@ -143,6 +153,18 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Song title"
               required
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="upload-notes">Notes (optional)</label>
+            <textarea
+              id="upload-notes"
+              className={`${styles.input} ${styles.textarea}`}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="What's this one about? Markdown works."
+              rows={4}
             />
           </div>
 

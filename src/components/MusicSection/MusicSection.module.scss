@@ -23,7 +23,7 @@
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: $color-text-dim;
+  color: $color-text-muted;
 }
 
 .headingBtn {
@@ -38,7 +38,7 @@
 
   &:hover,
   &:focus-visible {
-    color: $color-accent;
+    color: $color-accent-text;
   }
 
   &:hover .headingHint,
@@ -76,7 +76,7 @@
 
   &:hover {
     border-color: $color-border-accent;
-    color: $color-accent;
+    color: $color-accent-text;
     background: rgba(90, 136, 71, 0.06);
   }
 }
@@ -97,7 +97,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: $color-accent;
+  color: $color-accent-text;
   border: 1px solid $color-border-accent;
   border-radius: 3px;
   padding: $space-1 $space-3;

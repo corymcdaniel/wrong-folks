@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import useEscapeKey from '../../hooks/useEscapeKey';
 import styles from './LoginModal.module.scss';
 
 export default function LoginModal({ onClose }) {
@@ -7,6 +8,7 @@ export default function LoginModal({ onClose }) {
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
+  useEscapeKey(onClose);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,9 +26,15 @@ export default function LoginModal({ onClose }) {
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="login-heading"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.header}>
-          <h2 className={styles.heading}>Admin Login</h2>
+          <h2 id="login-heading" className={styles.heading}>Admin Login</h2>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close">&times;</button>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
