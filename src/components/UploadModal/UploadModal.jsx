@@ -42,7 +42,8 @@ function getDuration(file) {
 export default function UploadModal({ category, sectionTitle, onClose, onSuccess }) {
   const { token } = useAuth();
   const [title, setTitle]       = useState('');
-  const [file, setFile]         = useState(null);
+  const [notes, setNotes]       = useState('');
+  const [file, setFile]       = useState(null);
   const [isDragging, setDrag]   = useState(false);
   const [isUploading, setUploading] = useState(false);
   const [error, setError]       = useState('');
@@ -89,6 +90,7 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
           id,
           chunks,
           title:    title.trim(),
+          notes:    notes.trim(),
           category,
           duration,
           mimeType: file.type || 'audio/mpeg',
@@ -143,6 +145,18 @@ export default function UploadModal({ category, sectionTitle, onClose, onSuccess
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Song title"
               required
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label} htmlFor="upload-notes">Notes (optional)</label>
+            <textarea
+              id="upload-notes"
+              className={`${styles.input} ${styles.textarea}`}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="What's this one about? Markdown works."
+              rows={4}
             />
           </div>
 

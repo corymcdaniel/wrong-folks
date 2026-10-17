@@ -120,7 +120,12 @@
 }
 
 // --- Title ---
+.titleBlock {
+  min-width: 0; // lets the title ellipsis work inside the grid column
+}
+
 .title {
+  display: block;
   font-size: 0.92rem;
   font-weight: 400;
   color: $color-text-primary;
@@ -145,6 +150,23 @@
   white-space: nowrap;
   min-width: 36px;
   text-align: right;
+}
+
+.editBtn {
+  font-size: 0.9rem;
+  color: $color-text-dim;
+  opacity: 0;
+  padding: $space-1 $space-2;
+  transition: opacity $transition-fast, color $transition-fast, transform $transition-fast;
+
+  .item:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: $color-accent;
+    transform: rotate(-12deg);
+  }
 }
 
 .deleteBtn {

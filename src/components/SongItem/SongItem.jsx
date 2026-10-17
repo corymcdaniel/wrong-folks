@@ -1,5 +1,6 @@
 import { usePlayer } from '../../contexts/PlayerContext';
 import { useAuth } from '../../contexts/AuthContext';
+import SongNotes from '../SongNotes/SongNotes';
 import styles from './SongItem.module.scss';
 
 function stripBand(title) {
@@ -14,7 +15,7 @@ function fmt(sec) {
 }
 
 export default function SongItem({
-  song, songs, index, onDelete,
+  song, songs, index, onDelete, onEdit,
   isDragging, isDropTarget,
   onDragStart, onDragOver, onDrop, onDragEnd,
 }) {
@@ -35,6 +36,11 @@ export default function SongItem({
     } catch (err) {
       console.error('Delete failed', err);
     }
+  };
+
+  const handleEdit = (e) => {
+    e.stopPropagation();
+    onEdit(song);
   };
 
   const className = [
@@ -77,10 +83,23 @@ export default function SongItem({
         )}
       </div>
 
-      <span className={styles.title}>{stripBand(song.title)}</span>
+      <div className={styles.titleBlock}>
+        <span className={styles.title}>{stripBand(song.title)}</span>
+        {song.notes && <SongNotes notes={song.notes} />}
+      </div>
 
       <div className={styles.right}>
         <span className={styles.duration}>{fmt(song.duration)}</span>
+        {isAdmin && (
+          <button
+            className={styles.editBtn}
+            onClick={handleEdit}
+            aria-label={`Edit ${song.title}`}
+            title="Edit title & notes"
+          >
+            &#9998;
+          </button>
+        )}
         {isAdmin && (
           <button
             className={styles.deleteBtn}

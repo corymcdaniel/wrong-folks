@@ -5,6 +5,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 // Function responses are capped at ~6 MB, so range responses are limited to
 // 4 MB. Browsers request the next range on their own when a 206 ends early.
 const MAX_RANGE = 4 * 1024 * 1024;
+const MAX_NOTES = 10000;
 
 function parseRange(header, total) {
   const m = header.match(/bytes=(\d*)-(\d*)/);
@@ -89,9 +90,37 @@ export default async (req, context) => {
     try {
       const store = getStore('songs');
       await store.delete(id);
+      await getStore('song-details').delete(id);
       return new Response(null, { status: 204 });
     } catch (err) {
       console.error('get-song DELETE:', err);
+      return new Response('Server error', { status: 500 });
+    }
+  }
+
+  // --- PATCH: edit title / notes ---
+  // Edits live in the song-details store so the audio blob never has to be
+  // rewritten (blob metadata can only change by re-saving the data).
+  if (req.method === 'PATCH') {
+    const auth = req.headers.get('Authorization') ?? '';
+    if (auth !== `Bearer ${ADMIN_PASSWORD}`) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+    try {
+      const body  = await req.json();
+      const title = String(body.title ?? '').trim();
+      const notes = String(body.notes ?? '').trim();
+
+      if (!title) return Response.json({ error: 'Missing title' }, { status: 400 });
+      if (notes.length > MAX_NOTES) return Response.json({ error: 'Notes too long' }, { status: 400 });
+
+      const existing = await getStore('songs').getMetadata(id);
+      if (!existing) return new Response('Not found', { status: 404 });
+
+      await getStore('song-details').setJSON(id, { title, notes });
+      return Response.json({ id, title, notes });
+    } catch (err) {
+      console.error('get-song PATCH:', err);
       return new Response('Server error', { status: 500 });
     }
   }

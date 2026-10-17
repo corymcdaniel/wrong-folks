@@ -19,6 +19,14 @@ A section can have a Markdown file that opens in a modal when its heading is cli
 
 To add a modal to another section, import a `.md` file with `?raw` in `src/App.jsx` and set it as the section's `info` field.
 
+### Song notes
+
+Each song can have Markdown notes shown under its title. Long notes are clamped to two lines with a "more" toggle. When logged in as admin, hover a song and click the pencil to edit its title and notes, or add notes in the upload form.
+
+Edits are saved by `PATCH /api/song/:id` to the `song-details` blob store as `{ title, notes }`, keyed by song id. They're kept apart from the audio because blob metadata can only change by re-saving the whole file. `/api/songs` merges them in, and an edited title wins over the one saved at upload. Deleting a song deletes its details too.
+
+Notes are typed on the site, so `src/utils/notesMarkdown.js` shows raw HTML as plain text, drops images, and only allows `http(s)`, `mailto` and relative links.
+
 ### Upload size
 
 Uploads can be up to **10 MB**. Netlify Functions cap request and response bodies at about 6 MB, so:
@@ -73,7 +81,7 @@ The hero background is set in `src/components/Hero/Hero.module.scss` and current
 | `@netlify/blobs` | Stores audio files as blobs, served via Netlify Function with range request support |
 | `vite` + `@vitejs/plugin-react` | Build tool — fast HMR, native ESM |
 | `sass` | SCSS support for CSS Modules |
-| `marked` | Turns the section info Markdown into HTML. It has no DOM dependency, so it works with the prerender step (react-markdown doesn't) |
+| `marked` | Turns the section info and song notes Markdown into HTML. It has no DOM dependency, so it works with the prerender step (react-markdown doesn't) |
 
 ## Deploying
 

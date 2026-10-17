@@ -4,6 +4,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const CATEGORIES     = ['pieces', 'lyrics'];
 const MAX_BYTES      = 10 * 1024 * 1024;
 const MAX_CHUNKS     = 3;
+const MAX_NOTES      = 10000;
 const UUID_RE        = /^[0-9a-f-]{36}$/i;
 
 function authorized(req) {
@@ -34,6 +35,7 @@ export default async (req) => {
   try {
     const body     = await req.json();
     const title    = String(body.title ?? '').trim();
+    const notes    = String(body.notes ?? '').trim().slice(0, MAX_NOTES);
     const category = body.category || 'pieces';
     const mimeType = body.mimeType || 'audio/mpeg';
     const duration = body.duration != null ? parseFloat(body.duration) : null;
@@ -87,9 +89,13 @@ export default async (req) => {
       },
     });
 
+    if (notes) {
+      await getStore('song-details').setJSON(id, { title, notes });
+    }
+
     await deleteChunks(chunkStore, id, chunks);
 
-    return Response.json({ id, title, uploadedAt, duration, mimeType, category });
+    return Response.json({ id, title, notes, uploadedAt, duration, mimeType, category });
   } catch (err) {
     console.error('upload-song:', err);
     if (chunkStore && id && chunks) {

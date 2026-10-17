@@ -4,7 +4,7 @@ import { usePlayer } from '../../contexts/PlayerContext';
 import SongItem from '../SongItem/SongItem';
 import styles from './MusicSection.module.scss';
 
-export default function MusicSection({ id, title, songs, isLoading, onDelete, onUpload, onReorder, onTitleClick }) {
+export default function MusicSection({ id, title, songs, isLoading, onDelete, onEdit, onUpload, onReorder, onTitleClick }) {
   const { isAdmin } = useAuth();
   const { playAll, playlist, isPlayAll } = usePlayer();
   const [dragIndex, setDragIndex] = useState(null);
@@ -68,6 +68,7 @@ export default function MusicSection({ id, title, songs, isLoading, onDelete, on
               songs={songs}
               index={i + 1}
               onDelete={onDelete}
+              onEdit={onEdit}
               isDragging={dragIndex === i}
               isDropTarget={overIndex === i && dragIndex !== i}
               onDragStart={() => handleDragStart(i)}
